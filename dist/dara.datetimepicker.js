@@ -697,9 +697,9 @@ class DateTimePicker {
     Lanauage_1.default.setDefaultMessage(message);
   }
 }
-exports["default"] = DateTimePicker;
 DateTimePicker.format = format_1.default;
 DateTimePicker.parser = parser_1.default;
+exports["default"] = DateTimePicker;
 
 /***/ }),
 
@@ -807,7 +807,7 @@ var DateViewMode;
   DateViewMode["date"] = "date";
   DateViewMode["datetime"] = "datetime";
   DateViewMode["time"] = "time";
-})(DateViewMode = exports.DateViewMode || (exports.DateViewMode = {}));
+})(DateViewMode || (exports.DateViewMode = DateViewMode = {}));
 exports.EXPRESSIONS_FORMAT.forEach(item => {
   exports.MAX_CHAR_LENGTH = Math.max(item.length, exports.MAX_CHAR_LENGTH);
 });
@@ -2281,7 +2281,7 @@ function __classPrivateFieldIn(state, receiver) {
 
 function __addDisposableResource(env, value, async) {
   if (value !== null && value !== void 0) {
-    if (typeof value !== "object") throw new TypeError("Object expected.");
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
     var dispose;
     if (async) {
         if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Date Time Picker - Darainfo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body onload="load()">
+  <div style="padding:10px">
+    <h2>Date Time Picker </h2>
+    <hr>
+    <ul class="view" style="width:100%;">
+      <li>
+        <h2>Date</h2>
+        <input type="text" id="dateText" />
+        
+        <h2>Date Time</h2>
+        <input type="text" id="datetimeText" />
+
+        <h2>Time</h2>
+        <input type="text" id="timeText" />
+
+        <h2>Month</h2>
+        <input type="text" id="monthText" />
+
+        <h2>Year</h2>
+        <input type="text" id="yearText" />
+      </li>
+      <li>
+        <h2>embed</h2>
+        <div id="date"></div>
+      </li>
+
+    </ul>
+  </div>
+
+</body>
+
+</html>
+
+<style>
+  .view {
+    width: 100%;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .view>li {
+    list-style: none;
+    width: 49%;
+    float: left;
+  }
+
+  h2{
+    padding: 0px;
+    margin: 0px;
+    margin-top: 10px;
+  }
+</style>
+
+<script>
+
+
+
+  function load() {
+    // 언어 설정
+    DaraDateTimePicker.setMessage({
+      year: '년',
+      month: '월',
+      day: '일',
+      am: "오전",
+      pm: "오후",
+      today: '오늘',
+      ok: '선택',
+      months: {
+        full: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+        abbr: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+      },
+      weeks: {
+        full: ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
+        abbr: ["월", "화", "수", "목", "금", "토", "일"]
+      },
+    });
+
+    new DaraDateTimePicker('#dateText', {
+        initialDate: '2023-08-10' // 초기화 요일
+        , format: 'YYYY-MM-DD'
+        , mode: 'date'
+        , minDate: DaraDateTimePicker.parser('2023-08-05')
+        , maxDate: DaraDateTimePicker.parser('2050-09-30')
+        , onChange: (dt) => {
+          console.log(dt);
+          //return false; 
+        }
+        , zIndex: 1000
+      },{
+        ok:"Ok"
+    })
+
+    new DaraDateTimePicker('#datetimeText',{initialDate:new Date(),format: 'YYYY-MM-DD HH:mm',  mode: 'datetime'});
+
+    new DaraDateTimePicker('#timeText',{initialDate:new Date(),format: 'HH:mm', mode: 'time'});
+
+    new DaraDateTimePicker('#monthText',{initialDate:new Date(),format: 'YYYY-MM', mode: 'month'});
+
+    new DaraDateTimePicker('#yearText',{initialDate:new Date(),format: 'YYYY', mode: 'year'});
+    
+    
+    new DaraDateTimePicker('#date', {
+      isEmbed: true
+      , mode: 'datetime'
+      , minDate: DaraDateTimePicker.parser('2023-08-05')
+      , maxDate: DaraDateTimePicker.parser('2025-09-30')
+      , initialDate: new Date() // 초기화 요일
+      , onChange: (dt) => {
+        console.log(dt);
+      }
+      , zIndex: 1000
+    })
+
+  }
+
+</script>

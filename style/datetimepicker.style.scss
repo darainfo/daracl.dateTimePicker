@@ -1,0 +1,413 @@
+.dara-datetime-hidden {
+    visibility: visible;
+    width: 0px;
+    height: 0px;
+    z-index: 1000;
+}
+
+.dara-datetime-wrapper {
+
+    --dark: #34495E;
+    --light: #ffffff;
+    --success: #0ABF30;
+    --error: #E24D4C;
+    --warning: #E9BD0C;
+    --info: #3498DB;
+    --background-color: #ffffff;
+    --sunday: #f00d0d;
+    --input-border: #9b94948a;
+    --select-background-color: #0ABF30;
+    --button-hover-color: #d4d4d48a;
+    --disabled-background-color: #f1f1f18a;
+
+    z-index: 1000;
+    display: none;
+
+    &.layer {
+        position: absolute;
+    }
+
+    &.show {
+        display: block;
+        animation: fadeIn 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    &.hide {
+        animation: fadeOut 0.5s;
+        animation-fill-mode: forwards;
+        //animation: daraToastHide 0.3s ease forwards;
+    }
+
+    &.embed {
+        display: block;
+    }
+
+    .red {
+        color: var(--sunday)
+    }
+
+    .ddtp-datetime {
+        border-radius: 4px;
+        padding: 10px;
+        width: 230px;
+        background-color: var(--background-color);
+        color: var(--dark);
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+        &[view-mode="date"] .ddtp-body>.ddtp-days {
+            display: block;
+        }
+
+        &[view-mode="datetime"] {
+
+            .ddtp-body>.ddtp-times,
+            .ddtp-body>.ddtp-days {
+                display: block;
+            }
+        }
+
+        &[view-mode="time"] {
+            .ddtp-body>.ddtp-times {
+                display: block;
+            }
+
+            .ddtp-header {
+                display: none;
+            }
+        }
+
+        &[view-mode="year"] {
+
+            .ddtp-body>.ddtp-years {
+                display: flex;
+            }
+
+            .ddtp-header-month {
+                display: none;
+            }
+        }
+
+        &[view-mode="month"] {
+
+            .ddtp-body>.ddtp-months {
+                display: flex;
+            }
+
+            .ddtp-header-month {
+                display: none;
+            }
+        }
+    }
+
+
+    .ddtp-header {
+        padding: 2px 5px 10px;
+        line-height: 25px;
+        height: 25px;
+        vertical-align: middle;
+
+        .ddtp-header-year {
+            font-weight: bold;
+            margin: 0px 10px 0px 0px;
+            cursor: pointer;
+        }
+
+        .ddtp-header-month {
+            font-weight: bold;
+            margin: 0px 10px 0px 0px;
+            vertical-align: top;
+            cursor: pointer;
+        }
+
+        .ddtp-date-move {
+            margin-left: auto;
+            vertical-align: top;
+            float: right;
+
+            .ddtp-move-btn {
+                text-decoration: none;
+                font-weight: bold;
+                display: inline-block;
+                height: 24px;
+
+                &:hover {
+                    background-color: #d6d6d6;
+                }
+            }
+
+            &::after {
+                content: '';
+                clear: both;
+            }
+        }
+    }
+
+    .ddtp-body {
+        margin: -2px -10px;
+        font-size: 13px;
+
+        >* {
+            display: none;
+        }
+
+        .ddtp-days {
+            letter-spacing: 0px;
+            border-collapse: separate;
+            border-spacing: 0px;
+            margin: 2px 10px;
+
+            .ddtp-day-label {
+                font-weight: bold;
+                width: 35px;
+                padding: 2px 5px;
+                text-align: center;
+            }
+
+            .ddtp-day {
+                position: relative;
+                text-align: center;
+                padding: 7px;
+                cursor: pointer;
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    display: block;
+                    width: 30px;
+                    height: 30px;
+                    background-color: var(--select-background-color);
+                    border-radius: 50%;
+                    opacity: 0;
+                    z-index: 0;
+                    transition: opacity 0.2s ease-in;
+                }
+
+                &:active:before,
+                &:hover:before {
+                    opacity: 0.2;
+                    transition: opacity 0.2s ease-out;
+                }
+
+                &.today:before {
+                    background-color: #d6e7f7;
+                    opacity: 0.5;
+                    transition: opacity 0.2s ease-out;
+                }
+
+                &.select:before {
+                    background-color: var(--select-background-color);
+                    opacity: 0.5;
+                    transition: opacity 0.2s ease-out;
+                }
+
+                &.disabled {
+                    background-color: var(--disabled-background-color);
+                    opacity: 0.5;
+                    cursor: auto;
+
+                    &:before {
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+
+        .ddtp-times {
+            margin: 2px 15px;
+            position: relative;
+
+
+            >.time-container {
+                width: calc(100% - 60px);
+                display: inline-block;
+                height: 60px;
+            }
+
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                opacity: 1;
+                width: 14px;
+            }
+
+            >.time-btn {
+                position: absolute;
+                top: 5px;
+                width: 55px;
+                right: 0px;
+
+                >button {
+                    display: block;
+                    width: 100%;
+                    margin-bottom: 7px;
+                    padding: 3px 3px;
+                    border-radius: 4px;
+                    border-color: var(--input-border);
+                    border-width: 1px;
+                    background-color: var(--background-color);
+
+                    &:hover {
+                        background-color: var(--select-background-color);
+                    }
+                }
+
+                .time-select {}
+
+                .time-today {
+                    &:hover {
+                        background-color: var(--button-hover-color);
+                    }
+                }
+            }
+
+            .ddtp-time {
+                display: table-row;
+                width: 160px;
+
+                >* {
+                    margin-top: 5px;
+                    display: table-cell;
+                    line-height: 20px;
+                    vertical-align: middle;
+                }
+
+                >span {
+                    width: 20px;
+                }
+
+                >input[type=number] {
+                    width: 35px;
+                    margin-right: 5px;
+                    padding-left: 8px;
+                    border-radius: 4px;
+                    border-color: var(--input-border);
+                    border-width: 1px;
+                }
+
+                >input[type=range] {
+                    width: calc(100% - 60px);
+                }
+            }
+        }
+
+        .ddtp-months {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            >.ddtp-month {
+                position: relative;
+                flex: 1 0 30%;
+                margin-bottom: 8px;
+                line-height: 50px;
+                text-align: center;
+                cursor: pointer;
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    display: block;
+                    width: 50px;
+                    height: 50px;
+                    background-color: var(--select-background-color);
+                    border-radius: 50%;
+                    opacity: 0;
+                    z-index: 0;
+                    transition: opacity 0.2s ease-in;
+                }
+
+                &:active:before,
+                &:hover:before {
+                    opacity: 0.2;
+                    transition: opacity 0.2s ease-out;
+                }
+
+                &.disabled {
+                    background-color: var(--disabled-background-color);
+                    opacity: 0.5;
+                    cursor: auto;
+
+                    &:before {
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+
+    .ddtp-years {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        >.ddtp-year {
+            position: relative;
+            flex: 1 0 25%;
+            margin-bottom: 8px;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+
+            &:before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: block;
+                width: 50px;
+                height: 50px;
+                background-color: var(--select-background-color);
+                border-radius: 50%;
+                opacity: 0;
+                z-index: 0;
+                transition: opacity 0.2s ease-in;
+            }
+
+            &:active:before,
+            &:hover:before {
+                opacity: 0.2;
+                transition: opacity 0.2s ease-out;
+            }
+
+            &.disabled {
+                background-color: var(--disabled-background-color);
+                opacity: 0.5;
+                cursor: auto;
+
+                &:before {
+                    background-color: transparent;
+                }
+            }
+
+        }
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+
+    }
+
+    to {
+        opacity: 0;
+    }
+}

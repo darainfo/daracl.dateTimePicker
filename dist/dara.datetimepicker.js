@@ -182,7 +182,9 @@ class DateTimePicker {
       selectorElement = selector;
     }
     if (selectorElement) {
-      selectorElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
+      if (this.options.isEmbed) {
+        selectorElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
+      }
     } else {
       throw new Error(`${selector} datetimepicker element not found`);
     }

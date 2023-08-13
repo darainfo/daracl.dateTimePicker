@@ -29,7 +29,9 @@
         "src/types/*"
       ]
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
+    "typeRoots": ["./src/types"],
     "importHelpers": true,
+    "noLib" : false,
     "allowSyntheticDefaultImports": true, /* Allow 'import x from y' when a module doesn't have a default export. */
     "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */

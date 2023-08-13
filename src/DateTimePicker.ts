@@ -66,19 +66,24 @@ export default class DateTimePicker {
     private minMonth: number = -1;
     private maxMonth: number = -1;
 
-    constructor(selector: string, options: DateTimePickerOptions, message: Message) {
+    constructor(selector: string|HTMLElement, options: DateTimePickerOptions, message: Message) {
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
 
         daraDatetimeIdx += 1;
 
-        const selectorElement = document.querySelector(selector) as HTMLElement;
+        let selectorElement:HTMLElement;
+        if(typeof selector === 'string'){
+            selectorElement = document.querySelector(selector) as HTMLElement;
+        }else{
+            selectorElement = selector;
+        }
 
         if (selectorElement) {
             selectorElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
         } else {
-            throw new Error(`${selector} form selector not found`);
+            throw new Error(`${selector} datetimepicker element not found`);
         }
-
+        
         this._viewMode = Object.keys(DateViewMode).includes(this.options.mode) ? this.options.mode : DateViewMode.date;
 
         this.initMode = this._viewMode;

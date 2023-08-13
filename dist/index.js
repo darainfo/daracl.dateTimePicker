@@ -596,11 +596,16 @@ var DateTimePicker = class {
     };
     this.options = Object.assign({}, DEFAULT_OPTIONS, options);
     daraDatetimeIdx += 1;
-    const selectorElement = document.querySelector(selector);
+    let selectorElement;
+    if (typeof selector === "string") {
+      selectorElement = document.querySelector(selector);
+    } else {
+      selectorElement = selector;
+    }
     if (selectorElement) {
       selectorElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
     } else {
-      throw new Error(`${selector} form selector not found`);
+      throw new Error(`${selector} datetimepicker element not found`);
     }
     this._viewMode = Object.keys(DateViewMode).includes(this.options.mode) ? this.options.mode : "date" /* date */;
     this.initMode = this._viewMode;

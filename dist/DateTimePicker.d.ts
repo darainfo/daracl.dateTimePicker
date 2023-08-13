@@ -22,7 +22,7 @@ export default class DateTimePicker {
     private maxYear;
     private minMonth;
     private maxMonth;
-    constructor(selector: string, options: DateTimePickerOptions, message: Message);
+    constructor(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message);
     private _minDate;
     private _maxDate;
     set viewMode(mode: DateViewMode);

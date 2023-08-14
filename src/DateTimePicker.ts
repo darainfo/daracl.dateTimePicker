@@ -66,26 +66,22 @@ export default class DateTimePicker {
     private minMonth: number = -1;
     private maxMonth: number = -1;
 
-    constructor(selector: string|HTMLElement, options: DateTimePickerOptions, message: Message) {
+    constructor(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message) {
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
 
         daraDatetimeIdx += 1;
 
-        let selectorElement:HTMLElement;
-        if(typeof selector === 'string'){
+        let selectorElement: HTMLElement;
+        if (typeof selector === 'string') {
             selectorElement = document.querySelector(selector) as HTMLElement;
-        }else{
+        } else {
             selectorElement = selector;
         }
 
-        if (selectorElement) {
-            if(this.options.isEmbed){
-                selectorElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
-            }
-        } else {
+        if (!selectorElement) {
             throw new Error(`${selector} datetimepicker element not found`);
         }
-        
+
         this._viewMode = Object.keys(DateViewMode).includes(this.options.mode) ? this.options.mode : DateViewMode.date;
 
         this.initMode = this._viewMode;
@@ -114,6 +110,7 @@ export default class DateTimePicker {
 
         if (this.options.isEmbed) {
             this.datetimeElement = selectorElement;
+            this.datetimeElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
         } else {
             this.isInput = true;
             this.targetElement.setAttribute('value', this.initialDate);
@@ -161,7 +158,7 @@ export default class DateTimePicker {
             }
             this.minYear = minDate.getFullYear();
             this.minMonth = +(this.minYear + utils.pad(minDate.getMonth(), 2));
-            return new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate(),0,0).getTime();
+            return new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate(), 0, 0).getTime();
         }
         return -1;
     }
@@ -180,7 +177,7 @@ export default class DateTimePicker {
             }
             this.maxYear = maxDate.getFullYear();
             this.maxMonth = +(this.maxYear + utils.pad(maxDate.getMonth(), 2));
-            return new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate(),23,59).getTime();
+            return new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate(), 23, 59).getTime();
         }
         return -1;
     }
@@ -365,7 +362,7 @@ export default class DateTimePicker {
      * 
      * @returns 
      */
-    public getDateValue(){
+    public getDateValue() {
         return this.currentDate.format(this.dateFormat);
     }
 
@@ -379,6 +376,7 @@ export default class DateTimePicker {
         DEFAULT_OPTIONS = Object.assign({}, DEFAULT_OPTIONS, options);
     }
 
+
     /**
      * 달력 보이기 처리. 
      * 
@@ -390,19 +388,24 @@ export default class DateTimePicker {
         }
         this.isVisible = true;
 
+        const docHeight = getDocHeight();
         this.datetimeElement.classList.remove("hide");
 
         this.datetimeElement.classList.add("show");
 
-        const offsetTop = this.targetElement.offsetTop; 
-        let top = offsetTop + this.targetElement.offsetHeight + 2;
-                
-        if( top+this.datetimeElement.offsetHeight > document.body.scrollHeight){
-            const newTop = offsetTop-(this.datetimeElement.offsetHeight+2);
-            top = newTop > 0? newTop: top;
-        }
+        const rect = this.targetElement.getBoundingClientRect();
 
-        const left = this.targetElement.offsetLeft;
+        const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        const scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+
+        const offsetTop = rect.top + scrollTop;
+        let top = offsetTop + this.targetElement.offsetHeight + 2;
+        const left = rect.left + scrollLeft;
+
+        if (top + this.datetimeElement.offsetHeight > docHeight) {
+            const newTop = offsetTop - (this.datetimeElement.offsetHeight + 2);
+            top = newTop > 0 ? newTop : top;
+        }
 
         this.datetimeElement.setAttribute('style', `top:${top}px;left:${left}px;z-index:${this.options.zIndex}`);
 
@@ -464,8 +467,8 @@ export default class DateTimePicker {
         const formatValue = this.currentDate.format(this.dateFormat);
 
         if (this.options.onChange) {
-            if(this.options.onChange(formatValue)===false){
-                return ; 
+            if (this.options.onChange(formatValue) === false) {
+                return;
             };
         }
 
@@ -745,11 +748,26 @@ export default class DateTimePicker {
         return false;
     }
 
-    public static setMessage(message:Message){
+    public static setMessage(message: Message) {
         Lanauage.setDefaultMessage(message)
     }
 }
 
+function getDocHeight() {
+
+    const doc = document;
+
+    return Math.max(
+
+        doc.body.scrollHeight, doc.documentElement.scrollHeight,
+
+        doc.body.offsetHeight, doc.documentElement.offsetHeight,
+
+        doc.body.clientHeight, doc.documentElement.clientHeight
+
+    );
+
+}
 
 
 

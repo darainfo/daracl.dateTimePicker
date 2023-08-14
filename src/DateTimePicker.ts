@@ -388,21 +388,21 @@ export default class DateTimePicker {
         }
         this.isVisible = true;
 
-        const docHeight = getDocHeight();
+        const docSize = getDocSize();
         this.datetimeElement.classList.remove("hide");
 
         this.datetimeElement.classList.add("show");
 
         const rect = this.targetElement.getBoundingClientRect();
 
-        const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-        const scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
 
         const offsetTop = rect.top + scrollTop;
         let top = offsetTop + this.targetElement.offsetHeight + 2;
         const left = rect.left + scrollLeft;
 
-        if (top + this.datetimeElement.offsetHeight > docHeight) {
+        if (top + this.datetimeElement.offsetHeight > docSize.clientHeight) {
             const newTop = offsetTop - (this.datetimeElement.offsetHeight + 2);
             top = newTop > 0 ? newTop : top;
         }
@@ -753,20 +753,17 @@ export default class DateTimePicker {
     }
 }
 
-function getDocHeight() {
-
-    const doc = document;
-
-    return Math.max(
-
-        doc.body.scrollHeight, doc.documentElement.scrollHeight,
-
-        doc.body.offsetHeight, doc.documentElement.offsetHeight,
-
-        doc.body.clientHeight, doc.documentElement.clientHeight
-
-    );
-
+function getDocSize() {
+    return {
+        clientHeight: Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+        ),
+        clientWidth: Math.max(
+            document.documentElement.clientWidth,
+            window.innerWidth || 0
+        )
+    }
 }
 
 

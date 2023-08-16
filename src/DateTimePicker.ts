@@ -261,7 +261,7 @@ export default class DateTimePicker {
                     this.currentDate.setMinutes(+this.minuteInputEle.value);
                 }
 
-                this.dateChangeEvent();
+                this.dateChangeEvent(e);
             }
         });
     }
@@ -319,7 +319,7 @@ export default class DateTimePicker {
         this.datetimeElement.querySelector('.time-select')?.addEventListener("click", (e: Event) => {
             this.currentDate.setHour(+hourInputEle.value);
             this.currentDate.setMinutes(+minuteInputEle.value);
-            this.dateChangeEvent();
+            this.dateChangeEvent(e);
         });
 
         // today click
@@ -447,27 +447,15 @@ export default class DateTimePicker {
             this.targetElement.addEventListener("click", (e: Event) => {
                 this.show();
             });
-
-            let beforeDt = this.options.initialDate;
-            this.targetElement.addEventListener("blur1", (e: Event) => {
-
-                const val = (e.target as HTMLInputElement).value;
-
-                if (val == beforeDt) {
-                    return;
-                }
-
-                this.dateChangeEvent();
-            });
         }
     }
 
-    private dateChangeEvent() {
+    private dateChangeEvent(e: Event) {
 
         const formatValue = this.currentDate.format(this.dateFormat);
 
         if (this.options.onChange) {
-            if (this.options.onChange(formatValue) === false) {
+            if (this.options.onChange(formatValue, e) === false) {
                 return;
             };
         }
@@ -589,7 +577,7 @@ export default class DateTimePicker {
                                 return;
                             }
                             this.currentDate.setYear(numYear);
-                            this.dateChangeEvent();
+                            this.dateChangeEvent(e);
                             return;
                         }
 
@@ -658,7 +646,7 @@ export default class DateTimePicker {
                             }
 
                             this.currentDate.setMonth(+month);
-                            this.dateChangeEvent();
+                            this.dateChangeEvent(e);
                             return;
                         }
                         this.currentDate.setMonth(+month);

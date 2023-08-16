@@ -38,7 +38,7 @@ module.exports = {
         use: ['babel-loader', 'ts-loader'],
       },
       {
-        test: /\.js|\.jsx$$/u,
+        test: /\.js$|\.jsx$/u,
         exclude: /node_modules/u,
         include: path.resolve(__dirname, 'src'),
         use: ['babel-loader'],
@@ -55,9 +55,5 @@ module.exports = {
       inject: true,
       template: 'src/index.html',
     }),
-    new MiniCssExtractPlugin({
-      filename: 'dist/[name].css'
-    })
-
   ],
 };

@@ -1,6 +1,6 @@
 {
   "name": "dara-datetimepicker",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "sideEffects": false,
   "description": "Dara Datetime picker",
   "author": {
@@ -20,7 +20,7 @@
   "main": "src/index.ts",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist",
+    ".": "./dist/index.js",
     "./dist/": "./dist/"
   },
   "homepage": "https://github.com/darainfo/dara-datetimepicker",
@@ -81,7 +81,6 @@
     "mini-css-extract-plugin": "^2.7.6",
     "node-sass": "^9.0.0",
     "prettier": "^2.8.8",
-    "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.3.9",
     "ts-jest": "^29.1.0",
@@ -97,7 +96,7 @@
   },
   "scripts": {
     "prepack": "yarn build",
-    "build": "yarn build:prod && yarn scss-compile && yarn copy-dts && yarn build:tsc && yarn build:js",
+    "build": "yarn build:prod && yarn copy-dts && yarn build:tsc && yarn build:js",
     "build:tsc": "npx tsc --emitDeclarationOnly",
     "build:js": "node build.js",
     "build:dev": "webpack --config webpack.dev.js",
@@ -105,7 +104,6 @@
     "dts:gen": "npx -p typescript tsc src/index.js --declaration --allowJs --emitDeclarationOnly --outDir dist",
     "test": "jest",
     "start": "webpack-dev-server --open --config ./webpack.dev.server.js",
-    "scss-compile": "node-sass -r \"style\" -o \"dist\" --output-style compressed",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist"
   }
 }

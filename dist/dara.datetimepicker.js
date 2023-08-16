@@ -323,7 +323,7 @@ class DateTimePicker {
           this.currentDate.setHour(+this.hourInputEle.value);
           this.currentDate.setMinutes(+this.minuteInputEle.value);
         }
-        this.dateChangeEvent();
+        this.dateChangeEvent(e);
       }
     });
   }
@@ -371,7 +371,7 @@ class DateTimePicker {
     (_a = this.datetimeElement.querySelector('.time-select')) === null || _a === void 0 ? void 0 : _a.addEventListener("click", e => {
       this.currentDate.setHour(+hourInputEle.value);
       this.currentDate.setMinutes(+minuteInputEle.value);
-      this.dateChangeEvent();
+      this.dateChangeEvent(e);
     });
     // today click
     (_b = this.datetimeElement.querySelector('.time-today')) === null || _b === void 0 ? void 0 : _b.addEventListener("click", e => {
@@ -429,20 +429,19 @@ class DateTimePicker {
       return;
     }
     this.isVisible = true;
-    const docHeight = getDocHeight();
+    const docSize = getDocSize();
     this.datetimeElement.classList.remove("hide");
     this.datetimeElement.classList.add("show");
     const rect = this.targetElement.getBoundingClientRect();
-    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    const scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
     const offsetTop = rect.top + scrollTop;
     let top = offsetTop + this.targetElement.offsetHeight + 2;
     const left = rect.left + scrollLeft;
-    if (top + this.datetimeElement.offsetHeight > docHeight) {
+    if (top + this.datetimeElement.offsetHeight > docSize.clientHeight) {
       const newTop = offsetTop - (this.datetimeElement.offsetHeight + 2);
       top = newTop > 0 ? newTop : top;
     }
-    console.log(this.targetElement, top, left, offsetTop, docHeight);
     this.datetimeElement.setAttribute('style', `top:${top}px;left:${left}px;z-index:${this.options.zIndex}`);
     document.addEventListener('click', this._documentClickEvent);
   }
@@ -463,20 +462,12 @@ class DateTimePicker {
       this.targetElement.addEventListener("click", e => {
         this.show();
       });
-      let beforeDt = this.options.initialDate;
-      this.targetElement.addEventListener("blur1", e => {
-        const val = e.target.value;
-        if (val == beforeDt) {
-          return;
-        }
-        this.dateChangeEvent();
-      });
     }
   }
-  dateChangeEvent() {
+  dateChangeEvent(e) {
     const formatValue = this.currentDate.format(this.dateFormat);
     if (this.options.onChange) {
-      if (this.options.onChange(formatValue) === false) {
+      if (this.options.onChange(formatValue, e) === false) {
         return;
       }
       ;
@@ -581,7 +572,7 @@ class DateTimePicker {
                 return;
               }
               this.currentDate.setYear(numYear);
-              this.dateChangeEvent();
+              this.dateChangeEvent(e);
               return;
             }
             this.currentDate.setYear(numYear);
@@ -637,7 +628,7 @@ class DateTimePicker {
                 return;
               }
               this.currentDate.setMonth(+month);
-              this.dateChangeEvent();
+              this.dateChangeEvent(e);
               return;
             }
             this.currentDate.setMonth(+month);
@@ -709,9 +700,11 @@ class DateTimePicker {
 DateTimePicker.format = format_1.default;
 DateTimePicker.parser = parser_1.default;
 exports["default"] = DateTimePicker;
-function getDocHeight() {
-  const doc = document;
-  return Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight, doc.body.offsetHeight, doc.documentElement.offsetHeight, doc.body.clientHeight, doc.documentElement.clientHeight);
+function getDocSize() {
+  return {
+    clientHeight: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+    clientWidth: Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+  };
 }
 
 /***/ }),

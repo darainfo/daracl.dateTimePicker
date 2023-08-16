@@ -772,7 +772,7 @@ var DateTimePicker = class {
           this.currentDate.setHour(+this.hourInputEle.value);
           this.currentDate.setMinutes(+this.minuteInputEle.value);
         }
-        this.dateChangeEvent();
+        this.dateChangeEvent(e);
       }
     });
   }
@@ -820,7 +820,7 @@ var DateTimePicker = class {
     this.datetimeElement.querySelector(".time-select")?.addEventListener("click", (e) => {
       this.currentDate.setHour(+hourInputEle.value);
       this.currentDate.setMinutes(+minuteInputEle.value);
-      this.dateChangeEvent();
+      this.dateChangeEvent(e);
     });
     this.datetimeElement.querySelector(".time-today")?.addEventListener("click", (e) => {
       const initDate = new DaraDate(parser_default(this.initialDate, this.dateFormat) || /* @__PURE__ */ new Date());
@@ -877,20 +877,19 @@ var DateTimePicker = class {
       return;
     }
     this.isVisible = true;
-    const docHeight = getDocHeight();
+    const docSize = getDocSize();
     this.datetimeElement.classList.remove("hide");
     this.datetimeElement.classList.add("show");
     const rect = this.targetElement.getBoundingClientRect();
-    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    const scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
     const offsetTop = rect.top + scrollTop;
     let top = offsetTop + this.targetElement.offsetHeight + 2;
     const left = rect.left + scrollLeft;
-    if (top + this.datetimeElement.offsetHeight > docHeight) {
+    if (top + this.datetimeElement.offsetHeight > docSize.clientHeight) {
       const newTop = offsetTop - (this.datetimeElement.offsetHeight + 2);
       top = newTop > 0 ? newTop : top;
     }
-    console.log(this.targetElement, top, left, offsetTop, docHeight);
     this.datetimeElement.setAttribute("style", `top:${top}px;left:${left}px;z-index:${this.options.zIndex}`);
     document.addEventListener("click", this._documentClickEvent);
   }
@@ -911,20 +910,12 @@ var DateTimePicker = class {
       this.targetElement.addEventListener("click", (e) => {
         this.show();
       });
-      let beforeDt = this.options.initialDate;
-      this.targetElement.addEventListener("blur1", (e) => {
-        const val = e.target.value;
-        if (val == beforeDt) {
-          return;
-        }
-        this.dateChangeEvent();
-      });
     }
   }
-  dateChangeEvent() {
+  dateChangeEvent(e) {
     const formatValue = this.currentDate.format(this.dateFormat);
     if (this.options.onChange) {
-      if (this.options.onChange(formatValue) === false) {
+      if (this.options.onChange(formatValue, e) === false) {
         return;
       }
       ;
@@ -1028,7 +1019,7 @@ var DateTimePicker = class {
                 return;
               }
               this.currentDate.setYear(numYear);
-              this.dateChangeEvent();
+              this.dateChangeEvent(e);
               return;
             }
             this.currentDate.setYear(numYear);
@@ -1083,7 +1074,7 @@ var DateTimePicker = class {
                 return;
               }
               this.currentDate.setMonth(+month);
-              this.dateChangeEvent();
+              this.dateChangeEvent(e);
               return;
             }
             this.currentDate.setMonth(+month);
@@ -1152,16 +1143,17 @@ var DateTimePicker = class {
     Lanauage_default.setDefaultMessage(message);
   }
 };
-function getDocHeight() {
-  const doc = document;
-  return Math.max(
-    doc.body.scrollHeight,
-    doc.documentElement.scrollHeight,
-    doc.body.offsetHeight,
-    doc.documentElement.offsetHeight,
-    doc.body.clientHeight,
-    doc.documentElement.clientHeight
-  );
+function getDocSize() {
+  return {
+    clientHeight: Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    ),
+    clientWidth: Math.max(
+      document.documentElement.clientWidth,
+      window.innerWidth || 0
+    )
+  };
 }
 
 // src/index.ts

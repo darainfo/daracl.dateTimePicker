@@ -16,11 +16,9 @@ module.exports = merge(common, {
     , minimize: true
     , minimizer: [
       new TerserPlugin(),
-
       new CssMinimizerPlugin({
         test: /\.(sa|sc|c)ss$/i,
       })
-
     ],
 
   },

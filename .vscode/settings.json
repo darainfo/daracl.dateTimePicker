@@ -1,6 +1,6 @@
 {
-    "liveServer.settings.port": 5504
-    ,"liveSassCompile.settings.formats": [
+    "liveServer.settings.port": 5505,
+    "liveSassCompile.settings.formats": [
         // This is Default.
         {
             "format": "expanded",

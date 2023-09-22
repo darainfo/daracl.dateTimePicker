@@ -203,7 +203,6 @@ class DateTimePicker {
     } else {
       this.dateFormat = this.options.format || constants_1.DEFAULT_FORMAT.date;
     }
-    console.log();
     let viewDate;
     if (this.options.initialDate) {
       if (typeof this.options.initialDate === "string") {

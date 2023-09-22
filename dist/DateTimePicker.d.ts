@@ -1,6 +1,12 @@
 import { DateTimePickerOptions } from "@t/DateTimePickerOptions";
 import { Message } from "@t/Message";
-import { DateViewMode } from './constants';
+import { DateViewMode } from "./constants";
+/**
+ * date timepicker
+ *
+ * @class DateTimePicker
+ * @typedef {DateTimePicker}
+ */
 export default class DateTimePicker {
     static format: (date: Date, format: string) => string;
     static parser: (dateStr: string, format: string) => Date | null;
@@ -9,7 +15,7 @@ export default class DateTimePicker {
     private targetElement;
     private currentDate;
     private dateFormat;
-    private initialDate;
+    private todayDate;
     private isInput;
     private isVisible;
     private _viewMode;
@@ -32,11 +38,16 @@ export default class DateTimePicker {
      * @param mode
      */
     changeViewMode(mode: DateViewMode): void;
-    initHeaderEvent(): void;
+    /**
+     * init header event
+     *
+     * @public
+     */
+    private initHeaderEvent;
     /**
      * 날짜 달력 이벤트처리.
      */
-    initDateEvent(): void;
+    private initDateEvent;
     private isTimeMode;
     /**
      * 시간 분 설정 이벤트 처리.

@@ -1,6 +1,6 @@
 {
   "name": "dara-datetimepicker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "sideEffects": false,
   "description": "Dara Datetime picker",
   "author": {
@@ -40,7 +40,7 @@
     "yarn": "^1.22.19"
   },
   "prettier": {
-    "printWidth": 80,
+    "printWidth": 256,
     "useTabs": false,
     "tabWidth": 2,
     "bracketSpacing": true,

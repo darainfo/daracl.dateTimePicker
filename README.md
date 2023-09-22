@@ -1,39 +1,44 @@
-# data-datetimepicker
+# dara-datetimepicker
+
 An easy to use lightweight javascript calendar library.
 
 ## Browser Support
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png)  
---- | --- | --- | --- | --- |  
-Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |  
-
+| ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Latest ✔                                                                                 | Latest ✔                                                                                    | Latest ✔                                                                                 | Latest ✔                                                                              | Latest ✔                                                                           |
 
 # Installation
 
 ```bash
 npm install dara-datetimepicker
 ```
+
 OR
+
 ```bash
 yarn add dara-datetimepicker
 ```
+
 or download [zip](https://github.com/darainfo/dara-datetimepicker/releases)
 
-# start 
+# start
+
 ```bash
 npm start
 ```
 
 # build
+
 ```bash
 npm run build
 
 ```
 
-
 # datetimepicker 사용방법
+
 ```
-// language 
+// language
 DaraDateTimePicker.setMessage({
     year: '년',
     month: '월',
@@ -61,7 +66,7 @@ new DaraDateTimePicker('#dateText', {
     , maxDate: DaraDateTimePicker.parser('2050-09-30')
     , onChange: (dt) => {
         console.log(dt);
-        //return false; 
+        //return false;
     }
     , zIndex: 1000
     },{
@@ -92,40 +97,38 @@ new DaraDateTimePicker('#date', {
     , zIndex: 1000
 })
 
-```   
-  
+```
 
 # Options
-| key | Desc | Default | Option |
-|-----|------|-----|-----|
-| isEmbed | embed  | false |  |
-| initialDate |  initial date |  new Date() |  |
-| mode | view mode |   date   |  year, month, date, datetime, time
-| headerOrder |  month year order |  'month,year' | 'month,year'  |
-| format |  date format |  'YYYY-MM-DD' | |
-| zIndex |  css z-index | 1000 | |
-| autoClose |  auto close |  true | true, false |
-| minDate |  minimum date |  '' | |
-| maxDate |  maximum date |  '' | |
-| onLoad |  post-load event |   | |
-| onChange |  date change event |  | |   
 
+| key         | Desc              | Default      | Option                            |
+| ----------- | ----------------- | ------------ | --------------------------------- |
+| isEmbed     | embed             | false        |                                   |
+| initialDate | initial date      | new Date()   |                                   |
+| mode        | view mode         | date         | year, month, date, datetime, time |
+| headerOrder | month year order  | 'month,year' | 'month,year'                      |
+| format      | date format       | 'YYYY-MM-DD' |                                   |
+| zIndex      | css z-index       | 1000         |                                   |
+| autoClose   | auto close        | true         | true, false                       |
+| minDate     | minimum date      | ''           |                                   |
+| maxDate     | maximum date      | ''           |                                   |
+| onLoad      | post-load event   |              |                                   |
+| onChange    | date change event |              |                                   |
 
 # Lanauage
-| key | Desc | Default |
-|-----|------|-----|
-| year | year | Year |
-| month | Month |  Month |
-| day | Day |   Day   |
-| am | AM |  AM |
-| pm | PM |  PM |
-| today | Today button |  Today |
-| ok | H:M Ok button |Ok|
-| months | Months |   | 
-|  |  full  | ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]  | 
-|  |  abbr  | ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']  | 
-| weeks |  weeks |  |
-|  |  full | ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] |
-|  |  abbr |["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]  |
 
-
+| key    | Desc          | Default                                                                                                                    |
+| ------ | ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| year   | year          | Year                                                                                                                       |
+| month  | Month         | Month                                                                                                                      |
+| day    | Day           | Day                                                                                                                        |
+| am     | AM            | AM                                                                                                                         |
+| pm     | PM            | PM                                                                                                                         |
+| today  | Today button  | Today                                                                                                                      |
+| ok     | H:M Ok button | Ok                                                                                                                         |
+| months | Months        |                                                                                                                            |
+|        | full          | ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] |
+|        | abbr          | ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']                                       |
+| weeks  | weeks         |                                                                                                                            |
+|        | full          | ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]                                             |
+|        | abbr          | ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]                                                                          |

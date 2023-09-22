@@ -105,8 +105,6 @@ export default class DateTimePicker {
       this.dateFormat = this.options.format || DEFAULT_FORMAT.date;
     }
 
-    console.log();
-
     let viewDate: DaraDate;
     if (this.options.initialDate) {
       if (typeof this.options.initialDate === "string") {

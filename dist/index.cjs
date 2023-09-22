@@ -20,7 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  DaraDateTimePicker: () => DaraDateTimePicker
+  DateTimePicker: () => DateTimePicker2
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -84,38 +84,15 @@ var Language = class {
 var Lanauage_default = new Language();
 
 // src/constants.ts
-var EXPRESSIONS_FORMAT = [
-  "YY",
-  "YYYY",
-  "MMMM",
-  "MMM",
-  "MM",
-  "M",
-  "dddd",
-  "ddd",
-  "dd",
-  "d",
-  "DD",
-  "D",
-  "S",
-  "HH",
-  "H",
-  "hh",
-  "h",
-  "mm",
-  "m",
-  "ss",
-  "s",
-  "SSS",
-  "zzzz",
-  "zzz",
-  "zz",
-  "z",
-  "a",
-  "A"
-];
+var EXPRESSIONS_FORMAT = ["YY", "YYYY", "MMMM", "MMM", "MM", "M", "dddd", "ddd", "dd", "d", "DD", "D", "S", "HH", "H", "hh", "h", "mm", "m", "ss", "s", "SSS", "zzzz", "zzz", "zz", "z", "a", "A"];
 var MAX_CHAR_LENGTH = 0;
-var DEFAULT_DATE_FORMAT = "YYYY-MM-DD";
+var DEFAULT_FORMAT = {
+  year: "YYYY",
+  month: "YYYY-MM",
+  date: "YYYY-MM-DD",
+  time: "HH:mm",
+  datetime: "YYYY-MM-DD HH:mm"
+};
 var DateViewMode = /* @__PURE__ */ ((DateViewMode2) => {
   DateViewMode2["year"] = "year";
   DateViewMode2["month"] = "month";
@@ -331,7 +308,7 @@ var parser_default = (dateStr, format) => {
   if (dateStr.length > 1e3) {
     return null;
   }
-  format = format || DEFAULT_DATE_FORMAT;
+  format = format || DEFAULT_FORMAT.date;
   const dateInfo = {
     year: (/* @__PURE__ */ new Date()).getFullYear(),
     month: 0,
@@ -374,15 +351,7 @@ var parser_default = (dateStr, format) => {
     }
   }
   let date;
-  date = new Date(
-    dateInfo.year,
-    dateInfo.month,
-    dateInfo.day,
-    dateInfo.hour,
-    dateInfo.minute,
-    dateInfo.second,
-    dateInfo.millisecond
-  );
+  date = new Date(dateInfo.year, dateInfo.month, dateInfo.day, dateInfo.hour, dateInfo.minute, dateInfo.second, dateInfo.millisecond);
   return date;
 };
 var matchFind = (val, regexp) => {
@@ -397,102 +366,171 @@ var digitsCheck = {
 };
 var word = /[^\s]+/;
 var expressionsFunction2 = {
-  YY: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.year = +(("" + (/* @__PURE__ */ new Date()).getFullYear()).substring(0, 2) + val);
-    return dateInfo;
-  }],
-  YYYY: [digitsCheck["four"], (dateInfo, val) => {
-    dateInfo.year = +val;
-    return dateInfo;
-  }],
-  M: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.month = +val - 1;
-    return dateInfo;
-  }],
-  MM: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.month = +val - 1;
-    return dateInfo;
-  }],
-  MMM: [word, (dateInfo, val) => {
-    dateInfo.month = Lanauage_default.getMonthsIdx(val, "abbr");
-    return dateInfo;
-  }],
-  MMMM: [word, (dateInfo, val) => {
-    dateInfo.month = Lanauage_default.getMonthsIdx(val, "full");
-    return dateInfo;
-  }],
-  D: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.day = +val;
-    return dateInfo;
-  }],
-  DD: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.day = +val;
-    return dateInfo;
-  }],
-  d: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.day = +val;
-    return dateInfo;
-  }],
-  dd: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.day = +val;
-    return dateInfo;
-  }],
-  ddd: [word, (dateInfo, val) => {
-    return dateInfo;
-  }],
-  dddd: [word, (dateInfo, val) => {
-    return dateInfo;
-  }],
-  H: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.hour = +val;
-    dateInfo.isH = true;
-    return dateInfo;
-  }],
-  HH: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.hour = +val;
-    dateInfo.isH = true;
-    return dateInfo;
-  }],
-  h: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.hour = +val;
-    return dateInfo;
-  }],
-  hh: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.hour = +val;
-    return dateInfo;
-  }],
-  a: [word, (dateInfo, val) => {
-    if (Lanauage_default.getMessage("am") != val.toLowerCase()) {
-      dateInfo.isPm = true;
+  YY: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.year = +(("" + (/* @__PURE__ */ new Date()).getFullYear()).substring(0, 2) + val);
+      return dateInfo;
     }
-    return dateInfo;
-  }],
-  A: [word, (dateInfo, val) => {
-    if (Lanauage_default.getMessage("am") != val.toLowerCase()) {
-      dateInfo.isPm = true;
+  ],
+  YYYY: [
+    digitsCheck["four"],
+    (dateInfo, val) => {
+      dateInfo.year = +val;
+      return dateInfo;
     }
-    return dateInfo;
-  }],
-  m: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.minute = +val;
-    return dateInfo;
-  }],
-  mm: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.minute = +val;
-    return dateInfo;
-  }],
-  s: [digitsCheck["twoOptional"], (dateInfo, val) => {
-    dateInfo.second = +val;
-    return dateInfo;
-  }],
-  ss: [digitsCheck["two"], (dateInfo, val) => {
-    dateInfo.second = +val;
-    return dateInfo;
-  }],
-  SSS: [digitsCheck["three"], (dateInfo, val) => {
-    dateInfo.millisecond = +val;
-    return dateInfo;
-  }]
+  ],
+  M: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.month = +val - 1;
+      return dateInfo;
+    }
+  ],
+  MM: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.month = +val - 1;
+      return dateInfo;
+    }
+  ],
+  MMM: [
+    word,
+    (dateInfo, val) => {
+      dateInfo.month = Lanauage_default.getMonthsIdx(val, "abbr");
+      return dateInfo;
+    }
+  ],
+  MMMM: [
+    word,
+    (dateInfo, val) => {
+      dateInfo.month = Lanauage_default.getMonthsIdx(val, "full");
+      return dateInfo;
+    }
+  ],
+  D: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.day = +val;
+      return dateInfo;
+    }
+  ],
+  DD: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.day = +val;
+      return dateInfo;
+    }
+  ],
+  d: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.day = +val;
+      return dateInfo;
+    }
+  ],
+  dd: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.day = +val;
+      return dateInfo;
+    }
+  ],
+  ddd: [
+    word,
+    (dateInfo, val) => {
+      return dateInfo;
+    }
+  ],
+  dddd: [
+    word,
+    (dateInfo, val) => {
+      return dateInfo;
+    }
+  ],
+  H: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.hour = +val;
+      dateInfo.isH = true;
+      return dateInfo;
+    }
+  ],
+  HH: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.hour = +val;
+      dateInfo.isH = true;
+      return dateInfo;
+    }
+  ],
+  h: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.hour = +val;
+      return dateInfo;
+    }
+  ],
+  hh: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.hour = +val;
+      return dateInfo;
+    }
+  ],
+  a: [
+    word,
+    (dateInfo, val) => {
+      if (Lanauage_default.getMessage("am") != val.toLowerCase()) {
+        dateInfo.isPm = true;
+      }
+      return dateInfo;
+    }
+  ],
+  A: [
+    word,
+    (dateInfo, val) => {
+      if (Lanauage_default.getMessage("am") != val.toLowerCase()) {
+        dateInfo.isPm = true;
+      }
+      return dateInfo;
+    }
+  ],
+  m: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.minute = +val;
+      return dateInfo;
+    }
+  ],
+  mm: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.minute = +val;
+      return dateInfo;
+    }
+  ],
+  s: [
+    digitsCheck["twoOptional"],
+    (dateInfo, val) => {
+      dateInfo.second = +val;
+      return dateInfo;
+    }
+  ],
+  ss: [
+    digitsCheck["two"],
+    (dateInfo, val) => {
+      dateInfo.second = +val;
+      return dateInfo;
+    }
+  ],
+  SSS: [
+    digitsCheck["three"],
+    (dateInfo, val) => {
+      dateInfo.millisecond = +val;
+      return dateInfo;
+    }
+  ]
 };
 
 // src/DaraDate.ts
@@ -590,8 +628,9 @@ var DEFAULT_OPTIONS = {
   initialDate: "",
   autoClose: true,
   mode: "date" /* date */,
+  enableTodayBtn: false,
   headerOrder: "month,year",
-  format: "YYYY-MM-DD",
+  format: "",
   zIndex: 1e3,
   minDate: "",
   maxDate: ""
@@ -635,7 +674,18 @@ var DateTimePicker = class {
     this._viewMode = Object.keys(DateViewMode).includes(this.options.mode) ? this.options.mode : "date" /* date */;
     this.initMode = this._viewMode;
     Lanauage_default.set(message);
-    this.dateFormat = this.options.format || DEFAULT_DATE_FORMAT;
+    if (this.initMode == "year" /* year */) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.year;
+    } else if (this.initMode == "month" /* month */) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.month;
+    } else if (this.initMode == "time" /* time */) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.time;
+    } else if (this.initMode == "datetime" /* datetime */) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.datetime;
+    } else {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.date;
+    }
+    console.log();
     let viewDate;
     if (this.options.initialDate) {
       if (typeof this.options.initialDate === "string") {
@@ -647,7 +697,7 @@ var DateTimePicker = class {
       viewDate = new DaraDate(/* @__PURE__ */ new Date());
       this.options.initialDate = viewDate.format(this.dateFormat);
     }
-    this.todayDate = viewDate.format(DEFAULT_DATE_FORMAT);
+    this.todayDate = viewDate.format(DEFAULT_FORMAT.date);
     this.currentDate = viewDate;
     this.targetElement = selectorElement;
     this.minDate = this._minDate();
@@ -683,6 +733,25 @@ var DateTimePicker = class {
   }
   static {
     this.parser = parser_default;
+  }
+  /**
+   * default date format setting
+   * @example
+   ```
+  setDefaultFormat({
+    year: "YYYY",
+    month: "YYYY-MM",
+    date: "YYYY-MM-DD",
+    time: "HH:mm",
+    datetime: "YYYY-MM-DD HH:mm",
+  });
+   ```
+   * @public
+   * @static
+   * @param {*} dateFormat
+   */
+  static setDefaultFormat(dateFormat) {
+    Object.assign(DEFAULT_FORMAT, dateFormat);
   }
   _minDate() {
     let minDate = this.options.minDate;
@@ -782,6 +851,13 @@ var DateTimePicker = class {
         this.dateChangeEvent(e);
       }
     });
+    this.datetimeElement.querySelector(".time-today")?.addEventListener("click", (e) => {
+      const initDate = new DaraDate(parser_default(this.todayDate, DEFAULT_FORMAT.date) || /* @__PURE__ */ new Date());
+      this.currentDate.setYear(initDate.getYear());
+      this.currentDate.setMonth(initDate.getMonth() - 1);
+      this.currentDate.setDate(initDate.getDate());
+      this.changeViewMode(this.initMode);
+    });
   }
   isTimeMode() {
     return this._viewMode === "time" /* time */ || this._viewMode === "datetime" /* datetime */;
@@ -828,13 +904,6 @@ var DateTimePicker = class {
       this.currentDate.setHour(+hourInputEle.value);
       this.currentDate.setMinutes(+minuteInputEle.value);
       this.dateChangeEvent(e);
-    });
-    this.datetimeElement.querySelector(".time-today")?.addEventListener("click", (e) => {
-      const initDate = new DaraDate(parser_default(this.todayDate, DEFAULT_DATE_FORMAT) || /* @__PURE__ */ new Date());
-      this.currentDate.setYear(initDate.getYear());
-      this.currentDate.setMonth(initDate.getMonth() - 1);
-      this.currentDate.setDate(initDate.getDate());
-      this.changeViewMode(this.initMode);
     });
   }
   /**
@@ -969,7 +1038,10 @@ var DateTimePicker = class {
                     </tbody>
                     
                     <tfoot class="ddtp-day-footer">
-                        <td colspan="7"><div class="footer-tooltip"></div></td>
+                        <td colspan="7">
+                            <div style="text-align:center;margin-top: 5px;${this.options.enableTodayBtn ? "" : "display:none;"}"><button type="button" class="time-today">${Lanauage_default.getMessage("today")}</button></div>
+                            <div class="footer-tooltip"></div>
+                        </td>
                     </tfoot>
                 </table>
 
@@ -986,7 +1058,6 @@ var DateTimePicker = class {
                         </div>
                         <div class="time-btn">
                             <button type="button" class="time-select">${Lanauage_default.getMessage("ok")}</button>
-                            <button type="button" class="time-today">${Lanauage_default.getMessage("today")}</button>
                         </div>
                 </div>
 
@@ -1098,7 +1169,8 @@ var DateTimePicker = class {
    * 날짜 그리기
    */
   dayDraw() {
-    let monthFirstDate = new DaraDate(parser_default(this.currentDate.format("YYYY-MM-01"), DEFAULT_DATE_FORMAT) || /* @__PURE__ */ new Date());
+    let monthFirstDate = this.currentDate.clone();
+    monthFirstDate.setDate(1);
     this.datetimeElement.querySelector(".ddtp-header-year").textContent = monthFirstDate.format("YYYY");
     this.datetimeElement.querySelector(".ddtp-header-month").textContent = monthFirstDate.format("MMMM");
     let day = monthFirstDate.getDay();
@@ -1113,7 +1185,7 @@ var DateTimePicker = class {
       } else {
         dateItem = monthFirstDate.clone().addDate(i);
       }
-      const tooltipDt = dateItem.format(DEFAULT_DATE_FORMAT);
+      const tooltipDt = dateItem.format(DEFAULT_FORMAT.date);
       if (i % 7 == 0) {
         calHTML.push((i == 0 ? "" : "</tr>") + "<tr>");
       }
@@ -1159,5 +1231,5 @@ function getDocSize() {
 }
 
 // src/index.ts
-var DaraDateTimePicker = DateTimePicker;
+var DateTimePicker2 = DateTimePicker;
 //# sourceMappingURL=index.cjs.map

@@ -5,15 +5,16 @@ import parser from "./util/parser";
 import Lanauage from "./Lanauage";
 import utils from "./util/utils";
 import DaraDate from "./DaraDate";
-import { DEFAULT_DATE_FORMAT, DateViewMode } from "./constants";
+import { DEFAULT_FORMAT, DateViewMode } from "./constants";
 
 let DEFAULT_OPTIONS: DateTimePickerOptions = {
   isEmbed: false, // layer or innerhtml
   initialDate: "",
   autoClose: true,
   mode: DateViewMode.date,
+  enableTodayBtn: false,
   headerOrder: "month,year",
-  format: "YYYY-MM-DD",
+  format: "",
   zIndex: 1000,
   minDate: "",
   maxDate: "",
@@ -92,7 +93,19 @@ export default class DateTimePicker {
 
     Lanauage.set(message);
 
-    this.dateFormat = this.options.format || DEFAULT_DATE_FORMAT;
+    if (this.initMode == DateViewMode.year) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.year;
+    } else if (this.initMode == DateViewMode.month) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.month;
+    } else if (this.initMode == DateViewMode.time) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.time;
+    } else if (this.initMode == DateViewMode.datetime) {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.datetime;
+    } else {
+      this.dateFormat = this.options.format || DEFAULT_FORMAT.date;
+    }
+
+    console.log();
 
     let viewDate: DaraDate;
     if (this.options.initialDate) {
@@ -106,7 +119,7 @@ export default class DateTimePicker {
       this.options.initialDate = viewDate.format(this.dateFormat);
     }
 
-    this.todayDate = viewDate.format(DEFAULT_DATE_FORMAT);
+    this.todayDate = viewDate.format(DEFAULT_FORMAT.date);
     this.currentDate = viewDate;
     this.targetElement = selectorElement;
 
@@ -147,6 +160,26 @@ export default class DateTimePicker {
     this.initDateEvent();
 
     this.initTimeEvent();
+  }
+
+  /**
+   * default date format setting
+   * @example
+   ```
+  setDefaultFormat({
+    year: "YYYY",
+    month: "YYYY-MM",
+    date: "YYYY-MM-DD",
+    time: "HH:mm",
+    datetime: "YYYY-MM-DD HH:mm",
+  });
+   ```
+   * @public
+   * @static
+   * @param {*} dateFormat
+   */
+  public static setDefaultFormat(dateFormat: any) {
+    Object.assign(DEFAULT_FORMAT, dateFormat);
   }
 
   private _minDate() {
@@ -271,6 +304,15 @@ export default class DateTimePicker {
         this.dateChangeEvent(e);
       }
     });
+
+    // today click
+    this.datetimeElement.querySelector(".time-today")?.addEventListener("click", (e: Event) => {
+      const initDate = new DaraDate(parser(this.todayDate, DEFAULT_FORMAT.date) || new Date());
+      this.currentDate.setYear(initDate.getYear());
+      this.currentDate.setMonth(initDate.getMonth() - 1);
+      this.currentDate.setDate(initDate.getDate());
+      this.changeViewMode(this.initMode);
+    });
   }
 
   private isTimeMode(): boolean {
@@ -327,15 +369,6 @@ export default class DateTimePicker {
       this.currentDate.setHour(+hourInputEle.value);
       this.currentDate.setMinutes(+minuteInputEle.value);
       this.dateChangeEvent(e);
-    });
-
-    // today click
-    this.datetimeElement.querySelector(".time-today")?.addEventListener("click", (e: Event) => {
-      const initDate = new DaraDate(parser(this.todayDate, DEFAULT_DATE_FORMAT) || new Date());
-      this.currentDate.setYear(initDate.getYear());
-      this.currentDate.setMonth(initDate.getMonth() - 1);
-      this.currentDate.setDate(initDate.getDate());
-      this.changeViewMode(this.initMode);
     });
   }
 
@@ -506,7 +539,10 @@ export default class DateTimePicker {
                     </tbody>
                     
                     <tfoot class="ddtp-day-footer">
-                        <td colspan="7"><div class="footer-tooltip"></div></td>
+                        <td colspan="7">
+                            <div style="text-align:center;margin-top: 5px;${this.options.enableTodayBtn ? "" : "display:none;"}"><button type="button" class="time-today">${Lanauage.getMessage("today")}</button></div>
+                            <div class="footer-tooltip"></div>
+                        </td>
                     </tfoot>
                 </table>
 
@@ -523,7 +559,6 @@ export default class DateTimePicker {
                         </div>
                         <div class="time-btn">
                             <button type="button" class="time-select">${Lanauage.getMessage("ok")}</button>
-                            <button type="button" class="time-today">${Lanauage.getMessage("today")}</button>
                         </div>
                 </div>
 
@@ -660,7 +695,8 @@ export default class DateTimePicker {
    * 날짜 그리기
    */
   public dayDraw() {
-    let monthFirstDate = new DaraDate(parser(this.currentDate.format("YYYY-MM-01"), DEFAULT_DATE_FORMAT) || new Date());
+    let monthFirstDate = this.currentDate.clone();
+    monthFirstDate.setDate(1);
 
     (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = monthFirstDate.format("YYYY");
     (this.datetimeElement.querySelector(".ddtp-header-month") as Element).textContent = monthFirstDate.format("MMMM");
@@ -680,7 +716,7 @@ export default class DateTimePicker {
         dateItem = monthFirstDate.clone().addDate(i);
       }
 
-      const tooltipDt = dateItem.format(DEFAULT_DATE_FORMAT);
+      const tooltipDt = dateItem.format(DEFAULT_FORMAT.date);
 
       if (i % 7 == 0) {
         calHTML.push((i == 0 ? "" : "</tr>") + "<tr>");

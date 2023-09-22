@@ -29,6 +29,23 @@ export default class DateTimePicker {
     private minMonth;
     private maxMonth;
     constructor(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message);
+    /**
+     * default date format setting
+     * @example
+     ```
+    setDefaultFormat({
+      year: "YYYY",
+      month: "YYYY-MM",
+      date: "YYYY-MM-DD",
+      time: "HH:mm",
+      datetime: "YYYY-MM-DD HH:mm",
+    });
+     ```
+     * @public
+     * @static
+     * @param {*} dateFormat
+     */
+    static setDefaultFormat(dateFormat: any): void;
     private _minDate;
     private _maxDate;
     set viewMode(mode: DateViewMode);

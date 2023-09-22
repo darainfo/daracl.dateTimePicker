@@ -17,7 +17,7 @@
       <li>
         <h2>Date</h2>
         <input type="text" id="dateText" />
-        
+
         <h2>Date Time</h2>
         <input type="text" id="datetimeText" />
 
@@ -56,7 +56,7 @@
     float: left;
   }
 
-  h2{
+  h2 {
     padding: 0px;
     margin: 0px;
     margin-top: 10px;
@@ -69,7 +69,13 @@
 
   function load() {
     // 언어 설정
-    DaraDateTimePicker.setMessage({
+
+    DateTimePicker.setDefaultFormat({
+      date: 'YYYY.MM.DD'
+      , datetime: "YYYY.MM.DD HH:mm"
+    })
+
+    DateTimePicker.setMessage({
       year: '년',
       month: '월',
       day: '일',
@@ -87,35 +93,35 @@
       },
     });
 
-    new DaraDateTimePicker('#dateText', {
-        initialDate: '2023-08-10' // 초기화 요일
-        , format: 'YYYY-MM-DD'
-        , mode: 'date'
-        , minDate: DaraDateTimePicker.parser('2023-08-05')
-        , maxDate: DaraDateTimePicker.parser('2050-09-30')
-        , onChange: (dt) => {
-          console.log(dt);
-          //return false; 
-        }
-        , zIndex: 1000
-      },{
-        ok:"Ok"
+    new DateTimePicker('#dateText', {
+      //initialDate: '2023-08-10' // 초기화 요일
+      aaa: 11
+      , mode: 'date'
+      , minDate: DateTimePicker.parser('2023.08.05')
+      , maxDate: DateTimePicker.parser('2050.09.30')
+      , onChange: (dt) => {
+        console.log(dt);
+        //return false; 
+      }
+      , zIndex: 1000
+    }, {
+      ok: "Ok"
     })
 
-    new DaraDateTimePicker('#datetimeText',{initialDate:new Date(),format: 'YYYY-MM-DD HH:mm',  mode: 'datetime'});
+    new DateTimePicker('#datetimeText', { initialDate: new Date(), mode: 'datetime' });
 
-    new DaraDateTimePicker('#timeText',{initialDate:new Date(),format: 'HH:mm', mode: 'time'});
+    new DateTimePicker('#timeText', { initialDate: new Date(), mode: 'time' });
 
-    new DaraDateTimePicker('#monthText',{initialDate:new Date(),format: 'YYYY-MM', mode: 'month'});
+    new DateTimePicker('#monthText', { initialDate: new Date(), format: 'YYYY-MM-DD', mode: 'month' });
 
-    new DaraDateTimePicker('#yearText',{initialDate:new Date(),format: 'YYYY', mode: 'year'});
-    
-    
-    new DaraDateTimePicker('#date', {
+    new DateTimePicker('#yearText', { initialDate: new Date(), format: 'YYYY', mode: 'year' });
+
+
+    new DateTimePicker('#date', {
       isEmbed: true
       , mode: 'datetime'
-      , minDate: DaraDateTimePicker.parser('2023-08-05')
-      , maxDate: DaraDateTimePicker.parser('2025-09-30')
+      , minDate: DateTimePicker.parser('2023-08-05')
+      , maxDate: DateTimePicker.parser('2025-09-30')
       , initialDate: new Date() // 초기화 요일
       , onChange: (dt) => {
         console.log(dt);

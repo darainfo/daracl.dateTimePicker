@@ -1,6 +1,5 @@
-import DateTimePicker from './DateTimePicker'
+import DaraDateTimePicker from "./DateTimePicker";
 
-import '../style/datetimepicker.style.scss';
+import "../style/datetimepicker.style.scss";
 
-export const DaraDateTimePicker = DateTimePicker;
-
+export const DateTimePicker = DaraDateTimePicker;

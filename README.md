@@ -39,7 +39,7 @@ npm run build
 
 ```
 // language
-DaraDateTimePicker.setMessage({
+DateTimePicker.setMessage({
     year: '년',
     month: '월',
     day: '일',
@@ -58,12 +58,12 @@ DaraDateTimePicker.setMessage({
 });
 
 // mode=date
-new DaraDateTimePicker('#dateText', {
+new DateTimePicker('#dateText', {
     initialDate: '2023-08-10' // init date
     , format: 'YYYY-MM-DD'
     , mode: 'date'
-    , minDate: DaraDateTimePicker.parser('2023-08-05')
-    , maxDate: DaraDateTimePicker.parser('2050-09-30')
+    , minDate: DateTimePicker.parser('2023-08-05')
+    , maxDate: DateTimePicker.parser('2050-09-30')
     , onChange: (dt) => {
         console.log(dt);
         //return false;
@@ -74,23 +74,23 @@ new DaraDateTimePicker('#dateText', {
 })
 
 // mode=datetime
-new DaraDateTimePicker('#datetimeText',{initialDate:new Date(),format: 'YYYY-MM-DD HH:mm',  mode: 'datetime'});
+new DateTimePicker('#datetimeText',{initialDate:new Date(),format: 'YYYY-MM-DD HH:mm',  mode: 'datetime'});
 
 // mode=time
-new DaraDateTimePicker('#timeText',{initialDate:new Date(),format: 'HH:mm', mode: 'time'});
+new DateTimePicker('#timeText',{initialDate:new Date(),format: 'HH:mm', mode: 'time'});
 
 // mode=month
-new DaraDateTimePicker('#monthText',{initialDate:new Date(),format: 'YYYY-MM', mode: 'month'});
+new DateTimePicker('#monthText',{initialDate:new Date(),format: 'YYYY-MM', mode: 'month'});
 
 // mode=year
-new DaraDateTimePicker('#yearText',{initialDate:new Date(),format: 'YYYY', mode: 'year'});
+new DateTimePicker('#yearText',{initialDate:new Date(),format: 'YYYY', mode: 'year'});
 
 // mode=datetime embed
-new DaraDateTimePicker('#date', {
+new DateTimePicker('#date', {
     isEmbed: true
     , mode: 'datetime'
-    , minDate: DaraDateTimePicker.parser('2023-08-05')
-    , maxDate: DaraDateTimePicker.parser('2025-09-30')
+    , minDate: DateTimePicker.parser('2023-08-05')
+    , maxDate: DateTimePicker.parser('2025-09-30')
     , onChange: (dt) => {
         console.log(dt);
     }
@@ -115,7 +115,7 @@ new DaraDateTimePicker('#date', {
 | onLoad      | post-load event   |              |                                   |
 | onChange    | date change event |              |                                   |
 
-# Lanauage
+# Language
 
 | key    | Desc          | Default                                                                                                                    |
 | ------ | ------------- | -------------------------------------------------------------------------------------------------------------------------- |

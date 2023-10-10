@@ -602,7 +602,7 @@ var DEFAULT_OPTIONS = {
   initialDate: "",
   autoClose: true,
   mode: "date" /* date */,
-  enableTodayBtn: false,
+  enableTodayBtn: true,
   headerOrder: "month,year",
   format: "",
   zIndex: 1e3,

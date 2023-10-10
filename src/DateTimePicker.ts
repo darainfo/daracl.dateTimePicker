@@ -12,7 +12,7 @@ let DEFAULT_OPTIONS: DateTimePickerOptions = {
   initialDate: "",
   autoClose: true,
   mode: DateViewMode.date,
-  enableTodayBtn: false,
+  enableTodayBtn: true,
   headerOrder: "month,year",
   format: "",
   zIndex: 1000,

@@ -21,6 +21,11 @@
   z-index: 1000;
   display: none;
 }
+.dara-datetime-wrapper *,
+.dara-datetime-wrapper *::before,
+.dara-datetime-wrapper *::after {
+  box-sizing: content-box;
+}
 .dara-datetime-wrapper.layer {
   position: absolute;
 }

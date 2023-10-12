@@ -22,6 +22,12 @@
   z-index: 1000;
   display: none;
 
+  *,
+  *::before,
+  *::after {
+    box-sizing: content-box;
+  }
+
   &.layer {
     position: absolute;
   }

@@ -20,20 +20,21 @@
   --disabled-background-color: #f1f1f18a;
   --today-bg: #a9d5ff;
 }
-body.dark .dara-datetime-wrapper {
+body.dark .dara-datetime-wrapper,
+.dara-datetime-wrapper.dark {
   --color: #d0d6e1;
   --light: #ffffff;
   --success: #0abf30;
   --error: #e24d4c;
   --warning: #e9bd0c;
   --info: #3498db;
-  --background-color: #41444c;
+  --background-color: #070d19;
   --sunday: #f00d0d;
   --border-color: #6e7380;
   --today-bg: #5660d9;
   --today-color: #5660d9;
-  --select-background-color: #c4c5d8;
-  --button-hover-color: #141435;
+  --select-background-color: #ffffff;
+  --button-hover-color: #31316c;
   --disabled-background-color: #818181;
 }
 .dara-datetime-wrapper {
@@ -200,7 +201,7 @@ body.dark .dara-datetime-wrapper {
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:active:before,
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:hover:before {
-  opacity: 0.2;
+  opacity: 0.7;
   transition: opacity 0.2s ease-out;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today > span {
@@ -234,6 +235,10 @@ body.dark .dara-datetime-wrapper {
   width: calc(100% - 60px);
   display: inline-block;
   height: 60px;
+}
+.dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-inner-spin-button,
 .dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-outer-spin-button {
@@ -303,7 +308,7 @@ body.dark .dara-datetime-wrapper {
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:active:before,
 .dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:hover:before {
-  opacity: 0.2;
+  opacity: 0.5;
   transition: opacity 0.2s ease-out;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month.disabled {
@@ -344,7 +349,7 @@ body.dark .dara-datetime-wrapper {
 }
 .dara-datetime-wrapper .ddtp-years > .ddtp-year:active:before,
 .dara-datetime-wrapper .ddtp-years > .ddtp-year:hover:before {
-  opacity: 0.2;
+  opacity: 0.5;
   transition: opacity 0.2s ease-out;
 }
 .dara-datetime-wrapper .ddtp-years > .ddtp-year.disabled {

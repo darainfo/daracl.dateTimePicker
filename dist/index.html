@@ -9,10 +9,17 @@
 
 <script defer src="dara.datetimepicker.js"></script></head>
 
-<body onload="load()">
+<body onload="load()" class="dark">
   <div style="padding:10px">
-    <h2>Date Time Picker </h2>
+    <h2>Date Time Picker
+    </h2>
     <hr>
+
+    <div>
+      Theme : <label>Light<input type="radio" name="theme-toggle" value="light" checked="true"></label>
+      <label>Dark<input type="radio" name="theme-toggle" value="dark"></label>
+    </div>
+
     <ul class="view" style="width:100%;">
       <li>
         <h2>Date</h2>
@@ -67,9 +74,42 @@
 
 
 
-  function load() {
-    // 언어 설정
+  const THEME_KEY = "date-theme";
+  const theme = localStorage.getItem(THEME_KEY);
 
+  if (theme) setMainTheme(theme);
+
+  function setMainTheme(theme, persist = false) {
+    const classList = document.body.classList;
+
+    classList.remove("light", "dark");
+
+    classList.add(theme);
+
+    if (persist) {
+      localStorage.setItem(THEME_KEY, theme);
+    }
+  }
+
+
+  function load() {
+    // theme
+    const toggler = document.querySelectorAll('[name="theme-toggle"]');
+    const theme = localStorage.getItem(THEME_KEY);
+
+    if (toggler) {
+      if (theme === "dark") {
+        document.querySelector('[name="theme-toggle"][value="dark"]').checked = true;
+      }
+
+      toggler.forEach((el) => {
+        el.addEventListener("click", (e) => {
+          setMainTheme(el.value, true);
+        });
+      })
+    }
+
+    // 언어 설정
     DateTimePicker.setDefaultFormat({
       date: 'YYYY.MM.DD'
       , datetime: "YYYY.MM.DD HH:mm"
@@ -132,3 +172,10 @@
   }
 
 </script>
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+</style>

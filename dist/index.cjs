@@ -1190,7 +1190,7 @@ var DateTimePicker = class {
       }
       let disabled = this.isDayDisabled(dateItem);
       calHTML.push(`<td class="ddtp-day ${i % 7 == 0 ? "red" : ""} ${this.todayDate == tooltipDt ? "today" : ""} ${disabled ? "disabled" : ""}" data-day="${dateItem.format("M,D")}">`);
-      calHTML.push(`${dateItem.format("d")}`);
+      calHTML.push(`<span>${dateItem.format("d")}</span>`);
       calHTML.push("</td>");
     }
     calHTML.push("</tr>");

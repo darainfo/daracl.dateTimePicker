@@ -6,7 +6,7 @@
   z-index: 1000;
 }
 .dara-datetime-wrapper {
-  --dark: #34495e;
+  --color: #34495e;
   --light: #ffffff;
   --success: #0abf30;
   --error: #e24d4c;
@@ -14,10 +14,29 @@
   --info: #3498db;
   --background-color: #ffffff;
   --sunday: #f00d0d;
-  --input-border: #d3d2d2;
+  --border-color: #d3d2d2;
   --select-background-color: #0abf30;
   --button-hover-color: #d4d4d48a;
   --disabled-background-color: #f1f1f18a;
+  --today-bg: #a9d5ff;
+}
+body.dark .dara-datetime-wrapper {
+  --color: #d0d6e1;
+  --light: #ffffff;
+  --success: #0abf30;
+  --error: #e24d4c;
+  --warning: #e9bd0c;
+  --info: #3498db;
+  --background-color: #41444c;
+  --sunday: #f00d0d;
+  --border-color: #6e7380;
+  --today-bg: #5660d9;
+  --today-color: #5660d9;
+  --select-background-color: #c4c5d8;
+  --button-hover-color: #141435;
+  --disabled-background-color: #818181;
+}
+.dara-datetime-wrapper {
   z-index: 1000;
   display: none;
 }
@@ -25,9 +44,13 @@
 .dara-datetime-wrapper *::before,
 .dara-datetime-wrapper *::after {
   box-sizing: content-box;
+  color: var(--color);
 }
 .dara-datetime-wrapper.layer {
   position: absolute;
+}
+.dara-datetime-wrapper input {
+  background-color: transparent;
 }
 .dara-datetime-wrapper.show {
   display: block;
@@ -47,9 +70,9 @@
 .dara-datetime-wrapper .ddtp-datetime {
   border-radius: 4px;
   padding: 10px;
-  width: 230px;
+  width: 235px;
   background-color: var(--background-color);
-  color: var(--dark);
+  color: var(--color);
   box-shadow:
     0px 5px 5px -3px rgba(0, 0, 0, 0.2),
     0px 8px 10px 1px rgba(0, 0, 0, 0.14),
@@ -108,8 +131,11 @@
   display: inline-block;
   height: 24px;
 }
+.dara-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn > svg {
+  fill: var(--color);
+}
 .dara-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn:hover {
-  background-color: #d6d6d6;
+  background-color: var(--button-hover-color);
 }
 .dara-datetime-wrapper .ddtp-header .ddtp-date-move::after {
   content: "";
@@ -126,15 +152,15 @@
   display: block;
   width: 100%;
   margin-bottom: 7px;
-  padding: 3px 3px;
+  padding: 3px 0px;
   border-radius: 4px;
-  border-color: var(--input-border);
+  border-color: var(--border-color);
   border-width: 1px;
   border-style: solid;
   background-color: var(--background-color);
 }
 .dara-datetime-wrapper .ddtp-body button:hover {
-  background-color: var(--select-background-color);
+  background-color: var(--button-hover-color);
 }
 .dara-datetime-wrapper .ddtp-body .time-today:hover {
   background-color: var(--button-hover-color);
@@ -177,9 +203,14 @@
   opacity: 0.2;
   transition: opacity 0.2s ease-out;
 }
+.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today > span {
+  z-index: 2;
+  position: relative;
+}
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today:before {
-  background-color: #d6e7f7;
-  opacity: 0.5;
+  background-color: var(--today-bg);
+  z-index: 1;
+  opacity: 1;
   transition: opacity 0.2s ease-out;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.select:before {
@@ -206,8 +237,7 @@
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-inner-spin-button,
 .dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-outer-spin-button {
-  opacity: 1;
-  width: 14px;
+  -webkit-appearance: none;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-times > .time-btn {
   position: absolute;
@@ -232,12 +262,13 @@
   width: 20px;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > input[type=number] {
-  width: 35px;
+  width: 45px;
   margin-right: 5px;
-  padding-left: 8px;
+  padding-left: 0px;
   border-radius: 4px;
-  border-color: var(--input-border);
+  border-color: var(--border-color);
   border-width: 1px;
+  text-align: center;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > input[type=range] {
   width: calc(100% - 60px);

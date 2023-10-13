@@ -1,4 +1,4 @@
-# dara-datetimepicker
+# DateTimePicker
 
 An easy to use lightweight javascript calendar library.
 

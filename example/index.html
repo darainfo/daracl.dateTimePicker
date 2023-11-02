@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Toast Notification - Darainfo</title>
+  <title>Date Time Picker - Darainfo</title>
   <link rel="stylesheet" href="../dist/dara.datetimepicker.min.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,17 @@
   <script src="../dist/dara.datetimepicker.js"></script>
 </head>
 
-<body onload="load()">
+<body onload="load()" class="dark">
   <div style="padding:10px">
-    <h2>Date Time Picker </h2>
+    <h2>Date Time Picker
+    </h2>
     <hr>
+
+    <div>
+      Theme : <label>Light<input type="radio" name="theme-toggle" value="light" checked="true"></label>
+      <label>Dark<input type="radio" name="theme-toggle" value="dark"></label>
+    </div>
+
     <ul class="view" style="width:100%;">
       <li>
         <h2>Date</h2>
@@ -45,6 +52,30 @@
 </html>
 
 <style>
+  .form-button {
+    text-align: center;
+  }
+
+  :root {
+    --bg: #ffffff;
+    --bg-color: #070c16;
+
+  }
+
+  body.dark {
+    --bg: #9faabe;
+    --bg-color: #ffffff;
+
+  }
+
+  body {
+    background-color: var(--bg);
+  }
+
+  .header {
+    color: var(--bg-color);
+  }
+
   .view {
     width: 100%;
     list-style: none;
@@ -69,9 +100,48 @@
 
 
 
+  const THEME_KEY = "date-theme";
+  const theme = localStorage.getItem(THEME_KEY);
+
+  if (theme) setMainTheme(theme);
+
+  function setMainTheme(theme, persist = false) {
+    const classList = document.body.classList;
+
+    classList.remove("light", "dark");
+
+    classList.add(theme);
+
+    if (persist) {
+      localStorage.setItem(THEME_KEY, theme);
+    }
+  }
+
+
   function load() {
+    // theme
+    const toggler = document.querySelectorAll('[name="theme-toggle"]');
+    const theme = localStorage.getItem(THEME_KEY);
+
+    if (toggler) {
+      if (theme === "dark") {
+        document.querySelector('[name="theme-toggle"][value="dark"]').checked = true;
+      }
+
+      toggler.forEach((el) => {
+        el.addEventListener("click", (e) => {
+          setMainTheme(el.value, true);
+        });
+      })
+    }
+
     // 언어 설정
-    DaraDateTimePicker.setMessage({
+    DateTimePicker.setDefaultFormat({
+      date: 'YYYY.MM.DD'
+      , datetime: "YYYY.MM.DD HH:mm"
+    })
+
+    DateTimePicker.setMessage({
       year: '년',
       month: '월',
       day: '일',
@@ -89,12 +159,12 @@
       },
     });
 
-    new DaraDateTimePicker('#dateText', {
-      initialDate: '2023-08-10' // 초기화 요일
-      , format: 'YYYY-MM-DD'
+    new DateTimePicker('#dateText', {
+      //initialDate: '2023-08-10' // 초기화 요일
+      aaa: 11
       , mode: 'date'
-      , minDate: DaraDateTimePicker.parser('2023-08-05')
-      , maxDate: DaraDateTimePicker.parser('2050-09-30')
+      , minDate: DateTimePicker.parser('2023.08.05')
+      , maxDate: DateTimePicker.parser('2050.09.30')
       , onChange: (dt) => {
         console.log(dt);
         //return false; 
@@ -104,20 +174,20 @@
       ok: "Ok"
     })
 
-    new DaraDateTimePicker('#datetimeText', { initialDate: new Date(), format: 'YYYY-MM-DD HH:mm', mode: 'datetime' });
+    new DateTimePicker('#datetimeText', { initialDate: new Date(), mode: 'datetime' });
 
-    new DaraDateTimePicker('#timeText', { initialDate: new Date(), format: 'HH:mm', mode: 'time' });
+    new DateTimePicker('#timeText', { initialDate: new Date(), mode: 'time' });
 
-    new DaraDateTimePicker('#monthText', { initialDate: new Date(), format: 'YYYY-MM', mode: 'month' });
+    new DateTimePicker('#monthText', { initialDate: new Date(), format: 'YYYY-MM-DD', mode: 'month' });
 
-    new DaraDateTimePicker('#yearText', { initialDate: new Date(), format: 'YYYY', mode: 'year' });
+    new DateTimePicker('#yearText', { initialDate: new Date(), format: 'YYYY', mode: 'year' });
 
 
-    new DaraDateTimePicker('#date', {
+    new DateTimePicker('#date', {
       isEmbed: true
       , mode: 'datetime'
-      , minDate: DaraDateTimePicker.parser('2023-08-05')
-      , maxDate: DaraDateTimePicker.parser('2025-09-30')
+      , minDate: DateTimePicker.parser('2023-08-05')
+      , maxDate: DateTimePicker.parser('2025-09-30')
       , initialDate: new Date() // 초기화 요일
       , onChange: (dt) => {
         console.log(dt);
@@ -128,3 +198,10 @@
   }
 
 </script>
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+</style>

@@ -72,7 +72,7 @@ new DateTimePicker('#dateText', {
     , mode: 'date'
     , minDate: DateTimePicker.parser('2023-08-05')
     , maxDate: DateTimePicker.parser('2050-09-30')
-    , onChange: (dt) => {
+    , onSelect: (dt) => {
         console.log(dt);
         //return false;
     }
@@ -99,7 +99,7 @@ new DateTimePicker('#date', {
     , mode: 'datetime'
     , minDate: DateTimePicker.parser('2023-08-05')
     , maxDate: DateTimePicker.parser('2025-09-30')
-    , onChange: (dt) => {
+    , onSelect: (dt) => {
         console.log(dt);
     }
     , zIndex: 1000
@@ -121,7 +121,7 @@ new DateTimePicker('#date', {
 | minDate     | minimum date      | ''           |                                   |
 | maxDate     | maximum date      | ''           |                                   |
 | onLoad      | post-load event   |              |                                   |
-| onChange    | date change event |              |                                   |
+| onSelect    | date change event |              |                                   |
 
 # Language
 

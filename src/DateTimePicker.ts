@@ -18,6 +18,9 @@ let DEFAULT_OPTIONS: DateTimePickerOptions = {
   zIndex: 1000,
   minDate: "",
   maxDate: "",
+  addStyleClass: (dt) => {
+    return "";
+  },
 };
 
 function hiddenElement() {
@@ -255,11 +258,11 @@ export default class DateTimePicker {
    */
   private initHeaderEvent() {
     this.datetimeElement.querySelector(".ddtp-move-btn.prev")?.addEventListener("click", (e: Event) => {
-      this.moveDate("prev");
+      this.moveDate("prev", e);
     });
 
     this.datetimeElement.querySelector(".ddtp-move-btn.next")?.addEventListener("click", (e: Event) => {
-      this.moveDate("next");
+      this.moveDate("next", e);
     });
 
     this.datetimeElement.querySelector(".ddtp-header-year")?.addEventListener("click", (e: Event) => {
@@ -375,21 +378,24 @@ export default class DateTimePicker {
    * @param moveMode // 앞뒤 이동 prev, next
    * @returns
    */
-  public moveDate(moveMode: string) {
+  public moveDate(moveMode: string, e: Event) {
     if (this._viewMode === DateViewMode.date || this._viewMode === DateViewMode.datetime) {
       this.currentDate.addMonth("prev" === moveMode ? -1 : 1);
+      this.dateMoveEvent(e);
       this.dayDraw();
       return;
     }
 
     if (this._viewMode === DateViewMode.month) {
       this.currentDate.addYear("prev" === moveMode ? -1 : 1);
+      this.dateMoveEvent(e);
       this.monthDraw();
       return;
     }
 
     if (this._viewMode === DateViewMode.year) {
       this.currentDate.addYear("prev" === moveMode ? -16 : 16);
+      this.dateMoveEvent(e);
       this.yearDraw();
     }
   }
@@ -453,6 +459,12 @@ export default class DateTimePicker {
   private hide() {
     this.isVisible = false;
 
+    if (this.options.onClose) {
+      if (this.options.onClose() === false) {
+        return;
+      }
+    }
+
     this.datetimeElement.classList.remove("show");
 
     this.datetimeElement.classList.add("hide");
@@ -482,11 +494,21 @@ export default class DateTimePicker {
     }
   }
 
+  private dateMoveEvent(e: Event) {
+    const formatValue = this.currentDate.format(this.dateFormat);
+
+    if (this.options.onMoveDate) {
+      if (this.options.onMoveDate(formatValue, this.viewMode, e) === false) {
+        return;
+      }
+    }
+  }
+
   private dateChangeEvent(e: Event) {
     const formatValue = this.currentDate.format(this.dateFormat);
 
-    if (this.options.onChange) {
-      if (this.options.onChange(formatValue, e) === false) {
+    if (this.options.onSelect) {
+      if (this.options.onSelect(formatValue, this.viewMode, e) === false) {
         return;
       }
     }
@@ -571,15 +593,34 @@ export default class DateTimePicker {
     this.datetimeElement.innerHTML = datetimeTemplate;
   }
 
+  public refresh() {
+    if (this._viewMode === DateViewMode.date || this._viewMode === DateViewMode.datetime) {
+      this.dayDraw();
+      return;
+    }
+
+    if (this._viewMode === DateViewMode.month) {
+      this.monthDraw();
+      return;
+    }
+
+    if (this._viewMode === DateViewMode.year) {
+      this.yearDraw();
+    }
+  }
+
   /**
    * 년 달력 그리기
    */
-  public yearDraw() {
+  private yearDraw() {
     const currentYear = this.currentDate.format("YYYY");
 
     const startYear = +currentYear - 8;
 
-    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${startYear} ~ ${startYear + 15}`;
+    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${startYear}${Lanauage.getMessage("year")} ~ ${startYear + 15}${Lanauage.getMessage("year")}`;
+
+    const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
+    const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
 
     const calHTML: string[] = [];
     for (let i = 0; i < 16; i++) {
@@ -587,7 +628,14 @@ export default class DateTimePicker {
 
       const disabled = this.isYearDisabled(year);
 
-      calHTML.push(`<div class="ddtp-year ${disabled ? "disabled" : ""}" data-year="${year}">${year}</div>`);
+      let addStylceClass = disabled ? " disabled" : "";
+
+      if (addStyleClassFlag && addStyleClassFn) {
+        const reval = addStyleClassFn({ mode: this._viewMode, date: year });
+        addStylceClass += reval ? " " + reval : "";
+      }
+
+      calHTML.push(`<div class="ddtp-year ${addStylceClass}" data-year="${year}">${year}</div>`);
     }
     (this.datetimeElement.querySelector(".ddtp-years") as Element).innerHTML = calHTML.join("");
 
@@ -625,9 +673,9 @@ export default class DateTimePicker {
   /**
    * 월 달력 그리기
    */
-  public monthDraw() {
+  private monthDraw() {
     const year = this.currentDate.format("YYYY");
-    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = year;
+    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${year}${Lanauage.getMessage("year")}`;
 
     const monthElements = this.datetimeElement.querySelectorAll(".ddtp-months > .ddtp-month");
 
@@ -656,10 +704,21 @@ export default class DateTimePicker {
 
     (this.datetimeElement.querySelector(".ddtp-header-month") as Element).textContent = this.currentDate.format("MMMM");
 
+    const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
+    const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
+
     const calHTML: string[] = [];
     for (let i = 0; i < 12; i++) {
       const disabled = this.isMonthDisabled(+year, i);
-      calHTML.push(`<div class="ddtp-month ${disabled ? "disabled" : ""}" data-month="${i}">${Lanauage.getMonthsMessage(i, "abbr")}</div>`);
+
+      let addStylceClass = disabled ? " disabled" : "";
+
+      if (addStyleClassFlag && addStyleClassFn) {
+        const reval = addStyleClassFn({ mode: this._viewMode, date: year + "/" + (i + 1) });
+        addStylceClass += reval ? " " + reval : "";
+      }
+
+      calHTML.push(`<div class="ddtp-month ${addStylceClass}" data-month="${i}">${Lanauage.getMonthsMessage(i, "abbr")}</div>`);
     }
     (this.datetimeElement.querySelector(".ddtp-months") as Element).innerHTML = calHTML.join("");
 
@@ -692,11 +751,12 @@ export default class DateTimePicker {
   /**
    * 날짜 그리기
    */
-  public dayDraw() {
+  private dayDraw() {
     let monthFirstDate = this.currentDate.clone();
+    const currentMonth = monthFirstDate.getMonth();
     monthFirstDate.setDate(1);
 
-    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = monthFirstDate.format("YYYY");
+    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = monthFirstDate.format("YYYY") + Lanauage.getMessage("year");
     (this.datetimeElement.querySelector(".ddtp-header-month") as Element).textContent = monthFirstDate.format("MMMM");
 
     let day = monthFirstDate.getDay();
@@ -704,6 +764,11 @@ export default class DateTimePicker {
     if (day != 0) {
       monthFirstDate.addDate(-day);
     }
+
+    const dayStyleClass = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+    const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
+    const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
 
     const calHTML = [];
     for (let i = 0; i < 42; i++) {
@@ -714,7 +779,7 @@ export default class DateTimePicker {
         dateItem = monthFirstDate.clone().addDate(i);
       }
 
-      const tooltipDt = dateItem.format(DEFAULT_FORMAT.date);
+      const dateItemFormat = dateItem.format(DEFAULT_FORMAT.date);
 
       if (i % 7 == 0) {
         calHTML.push((i == 0 ? "" : "</tr>") + "<tr>");
@@ -722,7 +787,26 @@ export default class DateTimePicker {
 
       let disabled = this.isDayDisabled(dateItem);
 
-      calHTML.push(`<td class="ddtp-day ${i % 7 == 0 ? "red" : ""} ${this.todayDate == tooltipDt ? "today" : ""} ${disabled ? "disabled" : ""}" data-day="${dateItem.format("M,D")}">`);
+      let addStylceClass = dayStyleClass[i % 7];
+      const dateItemMonth = dateItem.getMonth();
+
+      if (dateItemMonth != currentMonth) {
+        if (dateItemMonth < currentMonth) {
+          addStylceClass += dateItemMonth == 1 ? " new" : " old";
+        } else {
+          addStylceClass += currentMonth == 1 && dateItemMonth == 12 ? " old" : " new";
+        }
+      }
+
+      addStylceClass += this.todayDate == dateItemFormat ? " today" : "";
+      addStylceClass += disabled ? " disabled" : "";
+
+      if (addStyleClassFlag && addStyleClassFn) {
+        const reval = addStyleClassFn({ mode: this._viewMode, item: dateItem, date: dateItem.format(this.dateFormat) });
+        addStylceClass += reval ? " " + reval : "";
+      }
+
+      calHTML.push(`<td class="ddtp-day ${addStylceClass}" data-day="${dateItem.format("M,D")}">`);
       calHTML.push(`<span>${dateItem.format("d")}</span>`);
       calHTML.push("</td>");
     }

@@ -128,8 +128,8 @@
         abbr: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
       },
       weeks: {
-        full: ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
-        abbr: ["월", "화", "수", "목", "금", "토", "일"]
+        full: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+        abbr: ["일", "월", "화", "수", "목", "금", "토"]
       },
     });
 
@@ -139,10 +139,16 @@
       , mode: 'date'
       , minDate: DateTimePicker.parser('2023.08.05')
       , maxDate: DateTimePicker.parser('2050.09.30')
-      , onChange: (dt) => {
+
+      , onSelect: (dt) => {
         console.log(dt);
         //return false; 
       }
+      , onClose: (dt) => {
+        console.log(dt);
+        //return false;
+      }
+
       , zIndex: 1000
     }, {
       ok: "Ok"
@@ -157,17 +163,26 @@
     new DateTimePicker('#yearText', { initialDate: new Date(), format: 'YYYY', mode: 'year' });
 
 
-    new DateTimePicker('#date', {
+    var aaa = new DateTimePicker('#date', {
       isEmbed: true
       , mode: 'datetime'
       , minDate: DateTimePicker.parser('2023-08-05')
       , maxDate: DateTimePicker.parser('2025-09-30')
       , initialDate: new Date() // 초기화 요일
-      , onChange: (dt) => {
-        console.log(dt);
+      , onSelect: (dt, mode, e) => {
+        console.log('select', dt, mode, e);
+      }
+      , onMoveDate: (dt, mode, e) => {
+        console.log('onMoveDate', dt, mode, e);
+      }
+      , addStyleClass: (dt) => {
+        //return false; 
+        return '111'
       }
       , zIndex: 1000
-    })
+    });
+
+    window.aaa = aaa;
 
   }
 

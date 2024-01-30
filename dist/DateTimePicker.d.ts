@@ -77,7 +77,7 @@ export default class DateTimePicker {
      * @param moveMode // 앞뒤 이동 prev, next
      * @returns
      */
-    moveDate(moveMode: string): void;
+    moveDate(moveMode: string, e: Event): void;
     /**
      * get date value
      *
@@ -110,23 +110,25 @@ export default class DateTimePicker {
      * 타켓 이벤트 처리.
      */
     private initTargetEvent;
+    private dateMoveEvent;
     private dateChangeEvent;
     /**
      *  datepicker template  그리기
      */
     private createDatetimeTemplate;
+    refresh(): void;
     /**
      * 년 달력 그리기
      */
-    yearDraw(): void;
+    private yearDraw;
     /**
      * 월 달력 그리기
      */
-    monthDraw(): void;
+    private monthDraw;
     /**
      * 날짜 그리기
      */
-    dayDraw(): void;
+    private dayDraw;
     private isDayDisabled;
     private isYearDisabled;
     private isMonthDisabled;

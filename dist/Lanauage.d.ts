@@ -23,10 +23,10 @@ declare class Language {
      * @returns {*}
      */
     getMessage(messageKey: string): any;
-    getMonthsMessage(idx: number, mode?: 'full' | 'abbr'): any;
-    getWeeksMessage(idx: number, mode?: 'full' | 'abbr'): any;
-    getMonthsIdx(val: string, mode?: 'full' | 'abbr'): number;
-    getWeeksIdx(val: string, mode?: 'full' | 'abbr'): number;
+    getMonthsMessage(idx: number, mode?: "full" | "abbr"): any;
+    getWeeksMessage(idx: number, mode?: "full" | "abbr"): any;
+    getMonthsIdx(val: string, mode?: "full" | "abbr"): number;
+    getWeeksIdx(val: string, mode?: "full" | "abbr"): number;
 }
 declare const _default: Language;
 export default _default;

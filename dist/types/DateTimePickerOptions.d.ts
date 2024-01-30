@@ -16,5 +16,8 @@ export interface DateTimePickerOptions {
   minDate: string | Date; // 초기화 요일
   maxDate: string | Date; // 초기화 요일
   onLoad?: OptionCallback;
-  onChange?: OptionCallback;
+  onSelect?: OptionCallback;
+  onMoveDate?: OptionCallback;
+  onClose?: OptionCallback;
+  addStyleClass?: OptionCallback;
 }

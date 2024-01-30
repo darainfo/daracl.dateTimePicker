@@ -65,7 +65,7 @@ body.dark .dara-datetime-wrapper,
 .dara-datetime-wrapper.embed {
   display: block;
 }
-.dara-datetime-wrapper .red {
+.dara-datetime-wrapper .sun > span {
   color: var(--sunday);
 }
 .dara-datetime-wrapper .ddtp-datetime {
@@ -171,18 +171,21 @@ body.dark .dara-datetime-wrapper,
   border-collapse: separate;
   border-spacing: 0px;
   margin: 2px 10px;
+  width: inherits;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day-label {
   font-weight: bold;
   width: 35px;
   padding: 2px 5px;
   text-align: center;
+  line-height: initial;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day {
   position: relative;
   text-align: center;
   padding: 7px;
   cursor: pointer;
+  line-height: initial;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:before {
   content: "";
@@ -218,6 +221,10 @@ body.dark .dara-datetime-wrapper,
   background-color: var(--select-background-color);
   opacity: 0.5;
   transition: opacity 0.2s ease-out;
+}
+.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.old,
+.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.new {
+  opacity: 0.5;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.disabled {
   background-color: var(--disabled-background-color);

@@ -380,6 +380,7 @@ export default class DateTimePicker {
    */
   public moveDate(moveMode: string, e: Event) {
     if (this._viewMode === DateViewMode.date || this._viewMode === DateViewMode.datetime) {
+      this.currentDate.setDate(1);
       this.currentDate.addMonth("prev" === moveMode ? -1 : 1);
       this.dateMoveEvent(e);
       this.dayDraw();
@@ -387,6 +388,7 @@ export default class DateTimePicker {
     }
 
     if (this._viewMode === DateViewMode.month) {
+      this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -1 : 1);
       this.dateMoveEvent(e);
       this.monthDraw();
@@ -394,6 +396,7 @@ export default class DateTimePicker {
     }
 
     if (this._viewMode === DateViewMode.year) {
+      this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -16 : 16);
       this.dateMoveEvent(e);
       this.yearDraw();

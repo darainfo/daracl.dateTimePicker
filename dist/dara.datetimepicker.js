@@ -432,18 +432,21 @@ class DateTimePicker {
    */
   moveDate(moveMode, e) {
     if (this._viewMode === constants_1.DateViewMode.date || this._viewMode === constants_1.DateViewMode.datetime) {
+      this.currentDate.setDate(1);
       this.currentDate.addMonth("prev" === moveMode ? -1 : 1);
       this.dateMoveEvent(e);
       this.dayDraw();
       return;
     }
     if (this._viewMode === constants_1.DateViewMode.month) {
+      this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -1 : 1);
       this.dateMoveEvent(e);
       this.monthDraw();
       return;
     }
     if (this._viewMode === constants_1.DateViewMode.year) {
+      this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -16 : 16);
       this.dateMoveEvent(e);
       this.yearDraw();

@@ -889,18 +889,21 @@ var DateTimePicker = class {
    */
   moveDate(moveMode, e) {
     if (this._viewMode === "date" /* date */ || this._viewMode === "datetime" /* datetime */) {
+      this.currentDate.setDate(1);
       this.currentDate.addMonth("prev" === moveMode ? -1 : 1);
       this.dateMoveEvent(e);
       this.dayDraw();
       return;
     }
     if (this._viewMode === "month" /* month */) {
+      this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -1 : 1);
       this.dateMoveEvent(e);
       this.monthDraw();
       return;
     }
     if (this._viewMode === "year" /* year */) {
+      this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -16 : 16);
       this.dateMoveEvent(e);
       this.yearDraw();

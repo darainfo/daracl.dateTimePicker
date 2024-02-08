@@ -480,8 +480,8 @@ export default class DateTimePicker {
    *
    * @param e
    */
-  private _documentClickEvent = (e: MouseEvent) => {
-    if (this.isVisible && e.target != this.targetElement && !e.composedPath().includes(this.datetimeElement)) {
+  private _documentClickEvent = (e: Event) => {
+    if (this.isVisible && e.target != this.targetElement && !utils.closestElement(e.target as HTMLElement, this.datetimeElement)) {
       this.hide();
     }
   };

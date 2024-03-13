@@ -7,6 +7,7 @@ export declare let DEFAULT_FORMAT: {
     time: string;
     datetime: string;
 };
+export declare const DAY_STYLE_CLASS: string[];
 export declare enum DateViewMode {
     year = "year",
     month = "month",

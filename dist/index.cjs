@@ -93,6 +93,7 @@ var DEFAULT_FORMAT = {
   time: "HH:mm",
   datetime: "YYYY-MM-DD HH:mm"
 };
+var DAY_STYLE_CLASS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 var DateViewMode = /* @__PURE__ */ ((DateViewMode2) => {
   DateViewMode2["year"] = "year";
   DateViewMode2["month"] = "month";
@@ -184,6 +185,16 @@ var utils_default = {
       str = "0" + str;
     }
     return str;
+  },
+  closestElement(el, checkElement) {
+    let currentEl = el;
+    while (currentEl) {
+      if (currentEl == checkElement) {
+        return true;
+      }
+      currentEl = currentEl.parentElement;
+    }
+    return false;
   }
 };
 
@@ -625,11 +636,12 @@ var DaraDate = class _DaraDate {
 var DEFAULT_OPTIONS = {
   isEmbed: false,
   // layer or innerhtml
+  firstDay: 0,
   initialDate: "",
   autoClose: true,
   mode: "date" /* date */,
   enableTodayBtn: true,
-  headerOrder: "month,year",
+  showMonthAfterYear: false,
   format: "",
   zIndex: 1e3,
   minDate: "",
@@ -653,13 +665,15 @@ var DateTimePicker = class {
     this.maxYear = -1;
     this.minMonth = -1;
     this.maxMonth = -1;
+    // 요일 순서.
+    this.dayOrder = [0, 1, 2, 3, 4, 5, 6];
     /**
      * 바탕 클릭시 캘린더 숨김 처리.
      *
      * @param e
      */
     this._documentClickEvent = (e) => {
-      if (this.isVisible && e.target != this.targetElement && !e.composedPath().includes(this.datetimeElement)) {
+      if (this.isVisible && e.target != this.targetElement && !utils_default.closestElement(e.target, this.datetimeElement)) {
         this.hide();
       }
     };
@@ -699,6 +713,7 @@ var DateTimePicker = class {
       viewDate = new DaraDate(/* @__PURE__ */ new Date());
       this.options.initialDate = viewDate.format(this.dateFormat);
     }
+    this.setWeekDays();
     this.todayDate = viewDate.format(DEFAULT_FORMAT.date);
     this.currentDate = viewDate;
     this.targetElement = selectorElement;
@@ -735,6 +750,18 @@ var DateTimePicker = class {
   }
   static {
     this.parser = parser_default;
+  }
+  setWeekDays() {
+    let firstDay = this.options.firstDay;
+    if (firstDay == 0)
+      return;
+    if (firstDay < 0 || firstDay > 6) {
+      firstDay = 0;
+    }
+    for (let i = 0; i < 7; i++) {
+      let day = firstDay + i;
+      this.dayOrder[i] = day < 7 ? day : day - 7;
+    }
   }
   /**
    * default date format setting
@@ -917,21 +944,18 @@ var DateTimePicker = class {
     if (this._viewMode === "date" /* date */ || this._viewMode === "datetime" /* datetime */) {
       this.currentDate.setDate(1);
       this.currentDate.addMonth("prev" === moveMode ? -1 : 1);
-      this.dateMoveEvent(e);
       this.dayDraw();
       return;
     }
     if (this._viewMode === "month" /* month */) {
       this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -1 : 1);
-      this.dateMoveEvent(e);
       this.monthDraw();
       return;
     }
     if (this._viewMode === "year" /* year */) {
       this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -16 : 16);
-      this.dateMoveEvent(e);
       this.yearDraw();
     }
   }
@@ -1001,10 +1025,10 @@ var DateTimePicker = class {
       });
     }
   }
-  dateMoveEvent(e) {
+  changeDatepicker() {
     const formatValue = this.currentDate.format(this.dateFormat);
-    if (this.options.onMoveDate) {
-      if (this.options.onMoveDate(formatValue, this.viewMode, e) === false) {
+    if (this.options.onChangeDatepicker) {
+      if (this.options.onChangeDatepicker(formatValue, this.viewMode) === false) {
         return;
       }
     }
@@ -1027,11 +1051,11 @@ var DateTimePicker = class {
    *  datepicker template  그리기
    */
   createDatetimeTemplate() {
-    const headerOrder = this.options.headerOrder.split(",");
+    const showMonthAfterYear = this.options.showMonthAfterYear;
     let datetimeTemplate = `<div class="ddtp-datetime" view-mode="${this._viewMode}">
 			<div class="ddtp-header">
-                <span class="${headerOrder[0] === "year" ? "ddtp-header-year" : "ddtp-header-month"}"></span>
-                <span class="${headerOrder[0] === "year" ? "ddtp-header-month" : "ddtp-header-year"}"></span>
+                <span class="${showMonthAfterYear ? "ddtp-header-year" : "ddtp-header-month"}"></span>
+                <span class="${showMonthAfterYear ? "ddtp-header-month" : "ddtp-header-year"}"></span>
 
                 <span class="ddtp-date-move">  
                     <a href="javascript:;" class="ddtp-move-btn prev">
@@ -1046,13 +1070,13 @@ var DateTimePicker = class {
                 <table class="ddtp-days">
                     <thead class="ddtp-day-header">
                         <tr>		
-                            <td class="ddtp-day-label sun red">${Lanauage_default.getWeeksMessage(0)}</td>		
-                            <td class="ddtp-day-label">${Lanauage_default.getWeeksMessage(1)}</td>		
-                            <td class="ddtp-day-label">${Lanauage_default.getWeeksMessage(2)}</td>		
-                            <td class="ddtp-day-label">${Lanauage_default.getWeeksMessage(3)}</td>		
-                            <td class="ddtp-day-label">${Lanauage_default.getWeeksMessage(4)}</td>		
-                            <td class="ddtp-day-label">${Lanauage_default.getWeeksMessage(5)}</td>		
-                            <td class="ddtp-day-label sat">${Lanauage_default.getWeeksMessage(6)}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[0]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[0])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[1]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[1])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[2]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[2])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[3]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[3])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[4]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[4])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[5]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[5])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[6]]}">${Lanauage_default.getWeeksMessage(this.dayOrder[6])}</td>		
                         </tr>
                     </thead>
                     <tbody class="ddtp-day-body">
@@ -1125,6 +1149,9 @@ var DateTimePicker = class {
       calHTML.push(`<div class="ddtp-year ${addStylceClass}" data-year="${year}">${year}</div>`);
     }
     this.datetimeElement.querySelector(".ddtp-years").innerHTML = calHTML.join("");
+    if (this.initMode == "year" /* year */) {
+      this.changeDatepicker();
+    }
     this.datetimeElement.querySelectorAll(".ddtp-year")?.forEach((yearEle) => {
       yearEle.addEventListener("click", (e) => {
         const targetEle = e.target;
@@ -1144,7 +1171,7 @@ var DateTimePicker = class {
               return;
             }
             this.currentDate.setYear(numYear);
-            this.viewMode = "month" /* month */;
+            this.viewMode = this.initMode;
           }
         }
       });
@@ -1175,6 +1202,9 @@ var DateTimePicker = class {
           monthEle.classList.remove("disabled");
         }
       });
+      if (this.initMode == "month" /* month */) {
+        this.changeDatepicker();
+      }
       return;
     }
     this.datetimeElement.querySelector(".ddtp-header-month").textContent = this.currentDate.format("MMMM");
@@ -1191,6 +1221,9 @@ var DateTimePicker = class {
       calHTML.push(`<div class="ddtp-month ${addStylceClass}" data-month="${i}">${Lanauage_default.getMonthsMessage(i, "abbr")}</div>`);
     }
     this.datetimeElement.querySelector(".ddtp-months").innerHTML = calHTML.join("");
+    if (this.initMode == "month" /* month */) {
+      this.changeDatepicker();
+    }
     this.datetimeElement.querySelectorAll(".ddtp-month")?.forEach((monthEle) => {
       monthEle.addEventListener("click", (e) => {
         const targetEle = e.target;
@@ -1223,10 +1256,12 @@ var DateTimePicker = class {
     this.datetimeElement.querySelector(".ddtp-header-year").textContent = monthFirstDate.format("YYYY") + Lanauage_default.getMessage("year");
     this.datetimeElement.querySelector(".ddtp-header-month").textContent = monthFirstDate.format("MMMM");
     let day = monthFirstDate.getDay();
-    if (day != 0) {
+    day = day - this.dayOrder[0];
+    if (day >= 0) {
       monthFirstDate.addDate(-day);
+    } else {
+      monthFirstDate.addDate(-(7 + day));
     }
-    const dayStyleClass = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
     const addStyleClassFlag = utils_default.isFunction(this.options.addStyleClass);
     const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
     const calHTML = [];
@@ -1242,7 +1277,7 @@ var DateTimePicker = class {
         calHTML.push((i == 0 ? "" : "</tr>") + "<tr>");
       }
       let disabled = this.isDayDisabled(dateItem);
-      let addStylceClass = dayStyleClass[i % 7];
+      let addStylceClass = DAY_STYLE_CLASS[this.dayOrder[i % 7]];
       const dateItemMonth = dateItem.getMonth();
       if (dateItemMonth != currentMonth) {
         if (dateItemMonth < currentMonth) {
@@ -1263,6 +1298,9 @@ var DateTimePicker = class {
     }
     calHTML.push("</tr>");
     this.datetimeElement.querySelector(".ddtp-day-body").innerHTML = calHTML.join("");
+    if (this.initMode == "date" /* date */ || this.initMode == "datetime" /* datetime */) {
+      this.changeDatepicker();
+    }
   }
   isDayDisabled(dateItem) {
     if (this.minDate != -1 && this.minDate > dateItem.getTime() || this.maxDate != -1 && this.maxDate < dateItem.getTime()) {

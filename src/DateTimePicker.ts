@@ -5,15 +5,16 @@ import parser from "./util/parser";
 import Lanauage from "./Lanauage";
 import utils from "./util/utils";
 import DaraDate from "./DaraDate";
-import { DEFAULT_FORMAT, DateViewMode } from "./constants";
+import { DAY_STYLE_CLASS, DEFAULT_FORMAT, DateViewMode } from "./constants";
 
 let DEFAULT_OPTIONS: DateTimePickerOptions = {
   isEmbed: false, // layer or innerhtml
+  firstDay: 0,
   initialDate: "",
   autoClose: true,
   mode: DateViewMode.date,
   enableTodayBtn: true,
-  headerOrder: "month,year",
+  showMonthAfterYear: false,
   format: "",
   zIndex: 1000,
   minDate: "",
@@ -74,6 +75,9 @@ export default class DateTimePicker {
   private minMonth: number = -1;
   private maxMonth: number = -1;
 
+  // 요일 순서.
+  private dayOrder: number[] = [0, 1, 2, 3, 4, 5, 6];
+
   constructor(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message) {
     this.options = Object.assign({}, DEFAULT_OPTIONS, options);
 
@@ -120,6 +124,8 @@ export default class DateTimePicker {
       this.options.initialDate = viewDate.format(this.dateFormat);
     }
 
+    this.setWeekDays();
+
     this.todayDate = viewDate.format(DEFAULT_FORMAT.date);
     this.currentDate = viewDate;
     this.targetElement = selectorElement;
@@ -161,6 +167,21 @@ export default class DateTimePicker {
     this.initDateEvent();
 
     this.initTimeEvent();
+  }
+  setWeekDays() {
+    let firstDay = this.options.firstDay;
+
+    if (firstDay == 0) return;
+
+    if (firstDay < 0 || firstDay > 6) {
+      firstDay = 0;
+    }
+
+    for (let i = 0; i < 7; i++) {
+      let day = firstDay + i;
+
+      this.dayOrder[i] = day < 7 ? day : day - 7;
+    }
   }
 
   /**
@@ -382,7 +403,6 @@ export default class DateTimePicker {
     if (this._viewMode === DateViewMode.date || this._viewMode === DateViewMode.datetime) {
       this.currentDate.setDate(1);
       this.currentDate.addMonth("prev" === moveMode ? -1 : 1);
-      this.dateMoveEvent(e);
       this.dayDraw();
       return;
     }
@@ -390,7 +410,6 @@ export default class DateTimePicker {
     if (this._viewMode === DateViewMode.month) {
       this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -1 : 1);
-      this.dateMoveEvent(e);
       this.monthDraw();
       return;
     }
@@ -398,7 +417,6 @@ export default class DateTimePicker {
     if (this._viewMode === DateViewMode.year) {
       this.currentDate.setDate(1);
       this.currentDate.addYear("prev" === moveMode ? -16 : 16);
-      this.dateMoveEvent(e);
       this.yearDraw();
     }
   }
@@ -497,11 +515,11 @@ export default class DateTimePicker {
     }
   }
 
-  private dateMoveEvent(e: Event) {
+  private changeDatepicker() {
     const formatValue = this.currentDate.format(this.dateFormat);
 
-    if (this.options.onMoveDate) {
-      if (this.options.onMoveDate(formatValue, this.viewMode, e) === false) {
+    if (this.options.onChangeDatepicker) {
+      if (this.options.onChangeDatepicker(formatValue, this.viewMode) === false) {
         return;
       }
     }
@@ -529,12 +547,12 @@ export default class DateTimePicker {
    *  datepicker template  그리기
    */
   private createDatetimeTemplate() {
-    const headerOrder = this.options.headerOrder.split(",");
+    const showMonthAfterYear = this.options.showMonthAfterYear;
 
     let datetimeTemplate = `<div class="ddtp-datetime" view-mode="${this._viewMode}">
 			<div class="ddtp-header">
-                <span class="${headerOrder[0] === "year" ? "ddtp-header-year" : "ddtp-header-month"}"></span>
-                <span class="${headerOrder[0] === "year" ? "ddtp-header-month" : "ddtp-header-year"}"></span>
+                <span class="${showMonthAfterYear ? "ddtp-header-year" : "ddtp-header-month"}"></span>
+                <span class="${showMonthAfterYear ? "ddtp-header-month" : "ddtp-header-year"}"></span>
 
                 <span class="ddtp-date-move">  
                     <a href="javascript:;" class="ddtp-move-btn prev">
@@ -549,13 +567,13 @@ export default class DateTimePicker {
                 <table class="ddtp-days">
                     <thead class="ddtp-day-header">
                         <tr>		
-                            <td class="ddtp-day-label sun red">${Lanauage.getWeeksMessage(0)}</td>		
-                            <td class="ddtp-day-label">${Lanauage.getWeeksMessage(1)}</td>		
-                            <td class="ddtp-day-label">${Lanauage.getWeeksMessage(2)}</td>		
-                            <td class="ddtp-day-label">${Lanauage.getWeeksMessage(3)}</td>		
-                            <td class="ddtp-day-label">${Lanauage.getWeeksMessage(4)}</td>		
-                            <td class="ddtp-day-label">${Lanauage.getWeeksMessage(5)}</td>		
-                            <td class="ddtp-day-label sat">${Lanauage.getWeeksMessage(6)}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[0]]}">${Lanauage.getWeeksMessage(this.dayOrder[0])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[1]]}">${Lanauage.getWeeksMessage(this.dayOrder[1])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[2]]}">${Lanauage.getWeeksMessage(this.dayOrder[2])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[3]]}">${Lanauage.getWeeksMessage(this.dayOrder[3])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[4]]}">${Lanauage.getWeeksMessage(this.dayOrder[4])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[5]]}">${Lanauage.getWeeksMessage(this.dayOrder[5])}</td>		
+                            <td class="ddtp-day-label ${DAY_STYLE_CLASS[this.dayOrder[6]]}">${Lanauage.getWeeksMessage(this.dayOrder[6])}</td>		
                         </tr>
                     </thead>
                     <tbody class="ddtp-day-body">
@@ -642,6 +660,10 @@ export default class DateTimePicker {
     }
     (this.datetimeElement.querySelector(".ddtp-years") as Element).innerHTML = calHTML.join("");
 
+    if (this.initMode == DateViewMode.year) {
+      this.changeDatepicker();
+    }
+
     this.datetimeElement.querySelectorAll(".ddtp-year")?.forEach((yearEle) => {
       yearEle.addEventListener("click", (e: Event) => {
         const targetEle = e.target as Element;
@@ -666,7 +688,7 @@ export default class DateTimePicker {
             }
 
             this.currentDate.setYear(numYear);
-            this.viewMode = DateViewMode.month;
+            this.viewMode = this.initMode;
           }
         }
       });
@@ -702,6 +724,10 @@ export default class DateTimePicker {
         }
       });
 
+      if (this.initMode == DateViewMode.month) {
+        this.changeDatepicker();
+      }
+
       return;
     }
 
@@ -724,6 +750,10 @@ export default class DateTimePicker {
       calHTML.push(`<div class="ddtp-month ${addStylceClass}" data-month="${i}">${Lanauage.getMonthsMessage(i, "abbr")}</div>`);
     }
     (this.datetimeElement.querySelector(".ddtp-months") as Element).innerHTML = calHTML.join("");
+
+    if (this.initMode == DateViewMode.month) {
+      this.changeDatepicker();
+    }
 
     this.datetimeElement.querySelectorAll(".ddtp-month")?.forEach((monthEle) => {
       monthEle.addEventListener("click", (e: Event) => {
@@ -764,11 +794,13 @@ export default class DateTimePicker {
 
     let day = monthFirstDate.getDay();
 
-    if (day != 0) {
-      monthFirstDate.addDate(-day);
-    }
+    day = day - this.dayOrder[0];
 
-    const dayStyleClass = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+    if (day >= 0) {
+      monthFirstDate.addDate(-day);
+    } else {
+      monthFirstDate.addDate(-(7 + day));
+    }
 
     const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
     const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
@@ -790,7 +822,7 @@ export default class DateTimePicker {
 
       let disabled = this.isDayDisabled(dateItem);
 
-      let addStylceClass = dayStyleClass[i % 7];
+      let addStylceClass = DAY_STYLE_CLASS[this.dayOrder[i % 7]];
       const dateItemMonth = dateItem.getMonth();
 
       if (dateItemMonth != currentMonth) {
@@ -817,6 +849,10 @@ export default class DateTimePicker {
     calHTML.push("</tr>");
 
     (this.datetimeElement.querySelector(".ddtp-day-body") as Element).innerHTML = calHTML.join("");
+
+    if (this.initMode == DateViewMode.date || this.initMode == DateViewMode.datetime) {
+      this.changeDatepicker();
+    }
   }
 
   private isDayDisabled(dateItem: DaraDate) {

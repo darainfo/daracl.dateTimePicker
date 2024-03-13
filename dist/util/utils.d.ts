@@ -10,5 +10,6 @@ declare const _default: {
     isArray(value: any): boolean;
     getHashCode(str: string): number;
     pad(str: any, length: number): string;
+    closestElement(el: HTMLElement, checkElement: Element): boolean;
 };
 export default _default;

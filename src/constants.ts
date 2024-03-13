@@ -10,6 +10,8 @@ export let DEFAULT_FORMAT = {
   datetime: "YYYY-MM-DD HH:mm",
 };
 
+export const DAY_STYLE_CLASS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
 export enum DateViewMode {
   year = "year",
   month = "month",

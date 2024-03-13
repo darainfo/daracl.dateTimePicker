@@ -28,7 +28,9 @@ export default class DateTimePicker {
     private maxYear;
     private minMonth;
     private maxMonth;
+    private dayOrder;
     constructor(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message);
+    setWeekDays(): void;
     /**
      * default date format setting
      * @example
@@ -110,7 +112,7 @@ export default class DateTimePicker {
      * 타켓 이벤트 처리.
      */
     private initTargetEvent;
-    private dateMoveEvent;
+    private changeDatepicker;
     private dateChangeEvent;
     /**
      *  datepicker template  그리기

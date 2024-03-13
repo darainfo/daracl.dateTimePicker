@@ -86,7 +86,6 @@ export default {
   },
 
   closestElement(el: HTMLElement, checkElement: Element) {
-    console.log("closestElement : ", el);
     let currentEl: HTMLElement | null = el;
     while (currentEl) {
       if (currentEl == checkElement) {

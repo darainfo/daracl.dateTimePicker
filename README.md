@@ -112,16 +112,18 @@ new DateTimePicker('#date', {
 | key         | Desc              | Default      | Option                            |
 | ----------- | ----------------- | ------------ | --------------------------------- |
 | isEmbed     | embed             | false        |                                   |
+| firstDay     | start day        | 0            |  0:Sun, 1:Mon, 2:Tue, 3:Wed, 4:Thu, 5:Fri, 6:Sat |
 | initialDate | initial date      | new Date()   |                                   |
 | mode        | view mode         | date         | year, month, date, datetime, time |
-| headerOrder | month year order  | 'month,year' | 'month,year'                      |
+| showMonthAfterYear | show month after           | false | true ,false      |
 | format      | date format       | 'YYYY-MM-DD' |                                   |
 | zIndex      | css z-index       | 1000         |                                   |
 | autoClose   | auto close        | true         | true, false                       |
 | minDate     | minimum date      | ''           |                                   |
 | maxDate     | maximum date      | ''           |                                   |
 | onLoad      | post-load event   |              |                                   |
-| onSelect    | date change event |              |                                   |
+| onSelect    | date select event |              |                                   |
+| onChangeDatepicker    | date change event |              |                                   |
 
 # Language
 

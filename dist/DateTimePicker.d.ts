@@ -8,6 +8,7 @@ import { DateViewMode } from "./constants";
  * @typedef {DateTimePicker}
  */
 export default class DateTimePicker {
+    static VERSION: string;
     static format: (date: Date, format: string) => string;
     static parser: (dateStr: string, format: string) => Date | null;
     private readonly options;
@@ -112,13 +113,21 @@ export default class DateTimePicker {
      * 타켓 이벤트 처리.
      */
     private initTargetEvent;
-    private changeDatepicker;
+    /**
+     * 날짜 변경후 이벤트
+     */
+    private afterChangeDatepicker;
+    /**
+     * 날짜 변경 전 이벤트.
+     * @returns void
+     */
+    private beforeChangeDatepicker;
     private dateChangeEvent;
     /**
      *  datepicker template  그리기
      */
     private createDatetimeTemplate;
-    refresh(): void;
+    refresh(beforeChangeDatepickerCheck?: boolean): void;
     /**
      * 년 달력 그리기
      */

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* style/datetimepicker.style.scss */
 .dara-datetime-hidden {
   visibility: visible;
@@ -186,6 +188,15 @@ body.dark .dara-datetime-wrapper,
   padding: 7px;
   cursor: pointer;
   line-height: initial;
+}
+.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.event::after {
+  content: "\2022";
+  color: #f78536;
+  font-size: 1.4em;
+  position: absolute;
+  left: 2px;
+  z-index: 10;
+  top: -7px;
 }
 .dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:before {
   content: "";

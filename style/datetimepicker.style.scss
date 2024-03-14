@@ -228,6 +228,16 @@ body.dark .dara-datetime-wrapper,
         cursor: pointer;
         line-height: initial;
 
+        &.event::after {
+          content: "•";
+          color: #f78536;
+          font-size: 1.4em;
+          position: absolute;
+          left: 2px;
+          z-index: 10;
+          top: -7px;
+        }
+
         &:before {
           content: "";
           position: absolute;

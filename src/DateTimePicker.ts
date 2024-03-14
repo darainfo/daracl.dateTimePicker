@@ -8,8 +8,8 @@ import DaraDate from "./DaraDate";
 import { DAY_STYLE_CLASS, DEFAULT_FORMAT, DateViewMode } from "./constants";
 
 let DEFAULT_OPTIONS: DateTimePickerOptions = {
-  isEmbed: false, // layer or innerhtml
-  firstDay: 0,
+  inline: false, // layer or innerhtml
+  weekStartDay: 0,
   initialDate: "",
   autoClose: true,
   mode: DateViewMode.date,
@@ -19,8 +19,12 @@ let DEFAULT_OPTIONS: DateTimePickerOptions = {
   zIndex: 1000,
   minDate: "",
   maxDate: "",
-  addStyleClass: (dt) => {
-    return "";
+  beforeDrawDate: (dt) => {
+    return {
+      check: false,
+      style: "",
+      tooltip: "",
+    };
   },
 };
 
@@ -41,6 +45,7 @@ let daraDatetimeIdx = 0;
  * @typedef {DateTimePicker}
  */
 export default class DateTimePicker {
+  public static VERSION = "0.2.1";
   public static format = format;
   public static parser = parser;
 
@@ -133,7 +138,7 @@ export default class DateTimePicker {
     this.minDate = this._minDate();
     this.maxDate = this._maxDate();
 
-    if (this.options.isEmbed) {
+    if (this.options.inline) {
       this.datetimeElement = selectorElement;
       this.datetimeElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
     } else {
@@ -169,16 +174,16 @@ export default class DateTimePicker {
     this.initTimeEvent();
   }
   setWeekDays() {
-    let firstDay = this.options.firstDay;
+    let weekStartDay = this.options.weekStartDay;
 
-    if (firstDay == 0) return;
+    if (weekStartDay == 0) return;
 
-    if (firstDay < 0 || firstDay > 6) {
-      firstDay = 0;
+    if (weekStartDay < 0 || weekStartDay > 6) {
+      weekStartDay = 0;
     }
 
     for (let i = 0; i < 7; i++) {
-      let day = firstDay + i;
+      let day = weekStartDay + i;
 
       this.dayOrder[i] = day < 7 ? day : day - 7;
     }
@@ -515,14 +520,42 @@ export default class DateTimePicker {
     }
   }
 
-  private changeDatepicker() {
+  /**
+   * 날짜 변경후 이벤트
+   */
+  private afterChangeDatepicker() {
     const formatValue = this.currentDate.format(this.dateFormat);
 
-    if (this.options.onChangeDatepicker) {
-      if (this.options.onChangeDatepicker(formatValue, this.viewMode) === false) {
+    if (this.options.afterChangeDatepicker && utils.isFunction(this.options.afterChangeDatepicker)) {
+      this.options.afterChangeDatepicker(formatValue, this.viewMode);
+    }
+  }
+
+  /**
+   * 날짜 변경 전 이벤트.
+   * @returns void
+   */
+  private beforeChangeDatepicker() {
+    const formatValue = this.currentDate.format(this.dateFormat);
+
+    if (this.options.beforeChangeDatepicker && utils.isFunction(this.options.beforeChangeDatepicker)) {
+      const reval = this.options.beforeChangeDatepicker(formatValue, (result: boolean) => {
+        if (result === false) {
+          return;
+        }
+
+        this.refresh(false);
+      });
+
+      if (reval === false) {
         return;
       }
+
+      this.refresh(false);
+      return;
     }
+
+    this.refresh(false);
   }
 
   private dateChangeEvent(e: Event) {
@@ -538,7 +571,7 @@ export default class DateTimePicker {
       this.targetElement.setAttribute("value", formatValue);
     }
 
-    if (!this.options.isEmbed && this.options.autoClose) {
+    if (!this.options.inline && this.options.autoClose) {
       this.hide();
     }
   }
@@ -614,34 +647,39 @@ export default class DateTimePicker {
     this.datetimeElement.innerHTML = datetimeTemplate;
   }
 
-  public refresh() {
+  public refresh(beforeChangeDatepickerCheck?: boolean) {
     if (this._viewMode === DateViewMode.date || this._viewMode === DateViewMode.datetime) {
-      this.dayDraw();
+      this.dayDraw(beforeChangeDatepickerCheck);
       return;
     }
 
     if (this._viewMode === DateViewMode.month) {
-      this.monthDraw();
+      this.monthDraw(beforeChangeDatepickerCheck);
       return;
     }
 
     if (this._viewMode === DateViewMode.year) {
-      this.yearDraw();
+      this.yearDraw(beforeChangeDatepickerCheck);
     }
   }
 
   /**
    * 년 달력 그리기
    */
-  private yearDraw() {
+  private yearDraw(beforeChangeDatepickerCheck?: boolean) {
     const currentYear = this.currentDate.format("YYYY");
+
+    if (beforeChangeDatepickerCheck !== false && this.initMode == DateViewMode.year) {
+      this.beforeChangeDatepicker();
+      return;
+    }
 
     const startYear = +currentYear - 8;
 
     (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${startYear}${Lanauage.getMessage("year")} ~ ${startYear + 15}${Lanauage.getMessage("year")}`;
 
-    const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
-    const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
+    const beforeDrawDateFlag = utils.isFunction(this.options.beforeDrawDate);
+    const beforeDrawDateFn = beforeDrawDateFlag ? this.options.beforeDrawDate : false;
 
     const calHTML: string[] = [];
     for (let i = 0; i < 16; i++) {
@@ -651,17 +689,20 @@ export default class DateTimePicker {
 
       let addStylceClass = disabled ? " disabled" : "";
 
-      if (addStyleClassFlag && addStyleClassFn) {
-        const reval = addStyleClassFn({ mode: this._viewMode, date: year });
-        addStylceClass += reval ? " " + reval : "";
+      let tooltip = "";
+      if (beforeDrawDateFlag && beforeDrawDateFn) {
+        const reval = beforeDrawDateFn({ mode: this._viewMode, date: year });
+        addStylceClass += reval.style ? " " + reval.style : "";
+        tooltip = reval.tooltip;
+        tooltip = tooltip ? `title="${tooltip}"` : "";
       }
 
-      calHTML.push(`<div class="ddtp-year ${addStylceClass}" data-year="${year}">${year}</div>`);
+      calHTML.push(`<div class="ddtp-year ${addStylceClass}" data-year="${year}" ${tooltip}>${year}</div>`);
     }
     (this.datetimeElement.querySelector(".ddtp-years") as Element).innerHTML = calHTML.join("");
 
     if (this.initMode == DateViewMode.year) {
-      this.changeDatepicker();
+      this.afterChangeDatepicker();
     }
 
     this.datetimeElement.querySelectorAll(".ddtp-year")?.forEach((yearEle) => {
@@ -698,7 +739,12 @@ export default class DateTimePicker {
   /**
    * 월 달력 그리기
    */
-  private monthDraw() {
+  private monthDraw(beforeChangeDatepickerCheck?: boolean) {
+    if (beforeChangeDatepickerCheck !== false && this.initMode == DateViewMode.month) {
+      this.beforeChangeDatepicker();
+      return;
+    }
+
     const year = this.currentDate.format("YYYY");
     (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${year}${Lanauage.getMessage("year")}`;
 
@@ -725,7 +771,7 @@ export default class DateTimePicker {
       });
 
       if (this.initMode == DateViewMode.month) {
-        this.changeDatepicker();
+        this.afterChangeDatepicker();
       }
 
       return;
@@ -733,26 +779,28 @@ export default class DateTimePicker {
 
     (this.datetimeElement.querySelector(".ddtp-header-month") as Element).textContent = this.currentDate.format("MMMM");
 
-    const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
-    const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
+    const beforeDrawDateFlag = utils.isFunction(this.options.beforeDrawDate);
+    const beforeDrawDateFn = beforeDrawDateFlag ? this.options.beforeDrawDate : false;
 
     const calHTML: string[] = [];
     for (let i = 0; i < 12; i++) {
       const disabled = this.isMonthDisabled(+year, i);
 
       let addStylceClass = disabled ? " disabled" : "";
-
-      if (addStyleClassFlag && addStyleClassFn) {
-        const reval = addStyleClassFn({ mode: this._viewMode, date: year + "/" + (i + 1) });
-        addStylceClass += reval ? " " + reval : "";
+      let tooltip = "";
+      if (beforeDrawDateFlag && beforeDrawDateFn) {
+        const reval = beforeDrawDateFn({ mode: this._viewMode, date: year + "/" + (i + 1) });
+        addStylceClass += reval.style ? " " + reval.style : "";
+        tooltip = reval.tooltip;
+        tooltip = tooltip ? `title="${tooltip}"` : "";
       }
 
-      calHTML.push(`<div class="ddtp-month ${addStylceClass}" data-month="${i}">${Lanauage.getMonthsMessage(i, "abbr")}</div>`);
+      calHTML.push(`<div class="ddtp-month ${addStylceClass}" data-month="${i}" ${tooltip}>${Lanauage.getMonthsMessage(i, "abbr")}</div>`);
     }
     (this.datetimeElement.querySelector(".ddtp-months") as Element).innerHTML = calHTML.join("");
 
     if (this.initMode == DateViewMode.month) {
-      this.changeDatepicker();
+      this.afterChangeDatepicker();
     }
 
     this.datetimeElement.querySelectorAll(".ddtp-month")?.forEach((monthEle) => {
@@ -784,7 +832,12 @@ export default class DateTimePicker {
   /**
    * 날짜 그리기
    */
-  private dayDraw() {
+  private dayDraw(beforeChangeDatepickerCheck?: boolean) {
+    if (beforeChangeDatepickerCheck !== false && (this.initMode == DateViewMode.date || this.initMode == DateViewMode.datetime)) {
+      this.beforeChangeDatepicker();
+      return;
+    }
+
     let monthFirstDate = this.currentDate.clone();
     const currentMonth = monthFirstDate.getMonth();
     monthFirstDate.setDate(1);
@@ -802,8 +855,8 @@ export default class DateTimePicker {
       monthFirstDate.addDate(-(7 + day));
     }
 
-    const addStyleClassFlag = utils.isFunction(this.options.addStyleClass);
-    const addStyleClassFn = addStyleClassFlag ? this.options.addStyleClass : false;
+    const beforeDrawDateFlag = utils.isFunction(this.options.beforeDrawDate);
+    const beforeDrawDateFn = beforeDrawDateFlag ? this.options.beforeDrawDate : false;
 
     const calHTML = [];
     for (let i = 0; i < 42; i++) {
@@ -836,12 +889,17 @@ export default class DateTimePicker {
       addStylceClass += this.todayDate == dateItemFormat ? " today" : "";
       addStylceClass += disabled ? " disabled" : "";
 
-      if (addStyleClassFlag && addStyleClassFn) {
-        const reval = addStyleClassFn({ mode: this._viewMode, item: dateItem, date: dateItem.format(this.dateFormat) });
-        addStylceClass += reval ? " " + reval : "";
+      let tooltip = "";
+      if (beforeDrawDateFlag && beforeDrawDateFn) {
+        const reval = beforeDrawDateFn({ mode: this._viewMode, item: dateItem, date: dateItem.format(this.dateFormat) });
+        addStylceClass += reval.style ? " " + reval.style : "";
+
+        addStylceClass += reval.check ? " event" : "";
+        tooltip = reval.tooltip;
+        tooltip = tooltip ? `title="${tooltip}"` : "";
       }
 
-      calHTML.push(`<td class="ddtp-day ${addStylceClass}" data-day="${dateItem.format("M,D")}">`);
+      calHTML.push(`<td class="ddtp-day ${addStylceClass}" data-day="${dateItem.format("M,D")}" ${tooltip}>`);
       calHTML.push(`<span>${dateItem.format("d")}</span>`);
       calHTML.push("</td>");
     }
@@ -851,7 +909,7 @@ export default class DateTimePicker {
     (this.datetimeElement.querySelector(".ddtp-day-body") as Element).innerHTML = calHTML.join("");
 
     if (this.initMode == DateViewMode.date || this.initMode == DateViewMode.datetime) {
-      this.changeDatepicker();
+      this.afterChangeDatepicker();
     }
   }
 

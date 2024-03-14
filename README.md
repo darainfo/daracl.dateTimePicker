@@ -95,15 +95,33 @@ new DateTimePicker('#yearText',{initialDate:new Date(),format: 'YYYY', mode: 'ye
 
 // mode=datetime embed
 new DateTimePicker('#date', {
-    isEmbed: true
+    inline: true
+    , showMonthAfterYear: true
     , mode: 'datetime'
+    , weekStartDay: 1
     , minDate: DateTimePicker.parser('2023-08-05')
     , maxDate: DateTimePicker.parser('2025-09-30')
-    , onSelect: (dt) => {
-        console.log(dt);
+    , initialDate: new Date() // 초기화 요일
+    , onSelect: (dt, mode, e) => {
+        console.log('select', dt, mode, e);
+    }
+    , beforeChangeDatepicker: (dt, callbackFn) => { 
+        console.log('beforeChangeDatepicker', dt);
+        callbackFn(true); // callback 을 사용하루 경우  return 은 무조건 false
+        return false;
+    }
+    , afterChangeDatepicker: (dt, mode) => {
+        console.log('afterChangeDatepicker', dt, mode);
+    }
+    , beforeDrawDate: (dt) => {
+    //return false; 
+    return {
+        style: '111'
+        //, tooltip: dt.date
+    }
     }
     , zIndex: 1000
-})
+});
 
 ```
 
@@ -111,19 +129,22 @@ new DateTimePicker('#date', {
 
 | key         | Desc              | Default      | Option                            |
 | ----------- | ----------------- | ------------ | --------------------------------- |
-| isEmbed     | embed             | false        |                                   |
-| firstDay     | start day        | 0            |  0:Sun, 1:Mon, 2:Tue, 3:Wed, 4:Thu, 5:Fri, 6:Sat |
+| inline     | embed             | false        |                                   |
+| weekStartDay| start day        | 0            |  0:Sun, 1:Mon, 2:Tue, 3:Wed, 4:Thu, 5:Fri, 6:Sat |
 | initialDate | initial date      | new Date()   |                                   |
 | mode        | view mode         | date         | year, month, date, datetime, time |
+| enableTodayBtn        | enable today button       | false         | false, true|
 | showMonthAfterYear | show month after           | false | true ,false      |
 | format      | date format       | 'YYYY-MM-DD' |                                   |
 | zIndex      | css z-index       | 1000         |                                   |
 | autoClose   | auto close        | true         | true, false                       |
 | minDate     | minimum date      | ''           |                                   |
 | maxDate     | maximum date      | ''           |                                   |
-| onLoad      | post-load event   |              |                                   |
+| onLoad      | load event   |              |                                   |
 | onSelect    | date select event |              |                                   |
-| onChangeDatepicker    | date change event |              |                                   |
+| beforeChangeDatepicker    | date change before event |              |                                   |
+| afterChangeDatepicker    | date change after event |              |                                   |
+| beforeDrawDate    | before date draw |              |                                   |
 
 # Language
 

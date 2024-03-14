@@ -639,6 +639,7 @@ var DEFAULT_OPTIONS = {
   weekStartDay: 0,
   initialDate: "",
   autoClose: true,
+  isRTL: false,
   mode: "date" /* date */,
   enableTodayBtn: true,
   showMonthAfterYear: false,
@@ -750,7 +751,7 @@ var DateTimePicker = class {
     this.initTimeEvent();
   }
   static {
-    this.VERSION = "0.2.1";
+    this.VERSION = `${APP_VERSION}`;
   }
   static {
     this.format = format_default;
@@ -851,11 +852,12 @@ var DateTimePicker = class {
    * @public
    */
   initHeaderEvent() {
+    const isRTL = this.options.isRTL;
     this.datetimeElement.querySelector(".ddtp-move-btn.prev")?.addEventListener("click", (e) => {
-      this.moveDate("prev", e);
+      this.moveDate(isRTL ? "next" : "prev", e);
     });
     this.datetimeElement.querySelector(".ddtp-move-btn.next")?.addEventListener("click", (e) => {
-      this.moveDate("next", e);
+      this.moveDate(isRTL ? "prev" : "next", e);
     });
     this.datetimeElement.querySelector(".ddtp-header-year")?.addEventListener("click", (e) => {
       this.viewMode = "year" /* year */;
@@ -1081,7 +1083,7 @@ var DateTimePicker = class {
    */
   createDatetimeTemplate() {
     const showMonthAfterYear = this.options.showMonthAfterYear;
-    let datetimeTemplate = `<div class="ddtp-datetime" view-mode="${this._viewMode}">
+    let datetimeTemplate = `<div class="ddtp-datetime ${this.options.isRTL ? "rtl" : ""}" view-mode="${this._viewMode}">
 			<div class="ddtp-header">
                 <span class="${showMonthAfterYear ? "ddtp-header-year" : "ddtp-header-month"}"></span>
                 <span class="${showMonthAfterYear ? "ddtp-header-month" : "ddtp-header-year"}"></span>

@@ -7,11 +7,14 @@ import utils from "./util/utils";
 import DaraDate from "./DaraDate";
 import { DAY_STYLE_CLASS, DEFAULT_FORMAT, DateViewMode } from "./constants";
 
+declare const APP_VERSION: string;
+
 let DEFAULT_OPTIONS: DateTimePickerOptions = {
   inline: false, // layer or innerhtml
   weekStartDay: 0,
   initialDate: "",
   autoClose: true,
+  isRTL: false,
   mode: DateViewMode.date,
   enableTodayBtn: true,
   showMonthAfterYear: false,
@@ -41,11 +44,11 @@ let daraDatetimeIdx = 0;
 /**
  * date timepicker
  *
- * @class DateTimePicker
+ * @class DateTimePicker1
  * @typedef {DateTimePicker}
  */
 export default class DateTimePicker {
-  public static VERSION = "0.2.1";
+  public static VERSION = `${APP_VERSION}`;
   public static format = format;
   public static parser = parser;
 
@@ -283,12 +286,13 @@ export default class DateTimePicker {
    * @public
    */
   private initHeaderEvent() {
+    const isRTL = this.options.isRTL;
     this.datetimeElement.querySelector(".ddtp-move-btn.prev")?.addEventListener("click", (e: Event) => {
-      this.moveDate("prev", e);
+      this.moveDate(isRTL ? "next" : "prev", e);
     });
 
     this.datetimeElement.querySelector(".ddtp-move-btn.next")?.addEventListener("click", (e: Event) => {
-      this.moveDate("next", e);
+      this.moveDate(isRTL ? "prev" : "next", e);
     });
 
     this.datetimeElement.querySelector(".ddtp-header-year")?.addEventListener("click", (e: Event) => {
@@ -582,7 +586,7 @@ export default class DateTimePicker {
   private createDatetimeTemplate() {
     const showMonthAfterYear = this.options.showMonthAfterYear;
 
-    let datetimeTemplate = `<div class="ddtp-datetime" view-mode="${this._viewMode}">
+    let datetimeTemplate = `<div class="ddtp-datetime ${this.options.isRTL ? "rtl" : ""}" view-mode="${this._viewMode}">
 			<div class="ddtp-header">
                 <span class="${showMonthAfterYear ? "ddtp-header-year" : "ddtp-header-month"}"></span>
                 <span class="${showMonthAfterYear ? "ddtp-header-month" : "ddtp-header-year"}"></span>

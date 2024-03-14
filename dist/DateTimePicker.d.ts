@@ -4,7 +4,7 @@ import { DateViewMode } from "./constants";
 /**
  * date timepicker
  *
- * @class DateTimePicker
+ * @class DateTimePicker1
  * @typedef {DateTimePicker}
  */
 export default class DateTimePicker {

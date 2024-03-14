@@ -81,6 +81,23 @@ body.dark .dara-datetime-wrapper,
     0px 8px 10px 1px rgba(0, 0, 0, 0.14),
     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
+.dara-datetime-wrapper .ddtp-datetime.rtl {
+  direction: rtl;
+}
+.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-header-year,
+.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-header-month {
+  float: right;
+}
+.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-date-move {
+  float: left;
+}
+.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-body .ddtp-times .time-container {
+  display: block;
+}
+.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-body .ddtp-times > .time-btn {
+  left: 0px;
+  right: auto;
+}
 .dara-datetime-wrapper .ddtp-datetime[view-mode=date] .ddtp-body > .ddtp-days {
   display: block;
 }
@@ -127,6 +144,7 @@ body.dark .dara-datetime-wrapper,
   margin-left: auto;
   vertical-align: top;
   float: right;
+  direction: ltr;
 }
 .dara-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn {
   text-decoration: none;

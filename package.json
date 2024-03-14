@@ -1,6 +1,6 @@
 {
   "name": "dara-datetimepicker",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "sideEffects": false,
   "description": "Dara Datetime picker",
   "author": {
@@ -13,7 +13,7 @@
     "daraDatetimepicker",
     "dara-datetimepicker",
     "datetimepicker",
-    "picker",
+    "pickek",
     "darainfo",
     "javascript"
   ],

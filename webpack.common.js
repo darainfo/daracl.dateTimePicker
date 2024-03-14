@@ -2,11 +2,18 @@ const path = require("path");
 
 const webpack = require("webpack");
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const packageJson = require("./package.json");
 
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const nodeExternals = require("webpack-node-externals");
+const topBanner = `/*!
+* ${packageJson.name}  v${packageJson.version}
+* Copyright 2023-${new Date().getUTCFullYear()} darainfo and other contributors; 
+* Licensed ${packageJson.license}
+*/`;
+
+process.env.TOP_BANNER = topBanner;
 
 module.exports = {
   entry: "./src/index.ts",
@@ -53,6 +60,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: "src/index.html",
+    }),
+    new webpack.BannerPlugin({
+      banner: topBanner,
+      raw: true,
+    }),
+    // datepicker version package 에서 가져다 쓸수 있게 수정 할것.
+
+    new webpack.DefinePlugin({
+      APP_VERSION: JSON.stringify(packageJson.version), // 패키지 버전을 전역 변수로 설정합니다.
     }),
   ],
 };

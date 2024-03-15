@@ -51,11 +51,11 @@ module.exports = merge(common, {
     ],
   },
   output: {
-    filename: "dara.datetimepicker.min.js",
+    filename: common.output.filename.replace(/\.js$/, ".min.js"),
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "dara.datetimepicker.min.css",
+      filename: common.output.filename.replace(/\.js$/, ".min.css"),
     }),
     //, new BundleAnalyzerPlugin()
   ],

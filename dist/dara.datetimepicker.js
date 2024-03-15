@@ -1,5 +1,5 @@
 /*!
-* dara-datetimepicker  v0.2.2
+* dara-datetimepicker  v0.2.3
 * Copyright 2023-2024 darainfo and other contributors; 
 * Licensed MIT
 */
@@ -900,7 +900,7 @@ class DateTimePicker {
     Lanauage_1.default.setDefaultMessage(message);
   }
 }
-DateTimePicker.VERSION = `${"0.2.2"}`;
+DateTimePicker.VERSION = `${"0.2.3"}`;
 DateTimePicker.format = format_1.default;
 DateTimePicker.parser = parser_1.default;
 exports["default"] = DateTimePicker;

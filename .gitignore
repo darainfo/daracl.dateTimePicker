@@ -11,5 +11,6 @@ dist.zip
 !.yarn/plugins
 .pnp.*
 dist/*
+docs/*
 template.zip
 

@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig",
+  "typedocOptions": {
+    "entryPoints": [
+      "src/DateTimePicker.ts",
+      "src/types/DateTimePickerOptions.d.ts",
+      "src/types/Message.d.ts"
+      // "src/core/StringUtils.ts"
+      //"packages/b/src/index.ts",
+    ],
+    "out": "docs",
+    "name": "Dara DateTimePicker Api",
+    "excludePrivate": true,
+    "readme": "DOC-README.md",
+    "gitRevision": "main",
+    /*
+    "plugin": [
+      "@mxssfd/typedoc-theme"
+    ],
+    "theme": "my-theme",
+    */
+    "disableSources": true,
+    "customCss": "./docCss/customStyle.css"
+  }
+}

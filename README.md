@@ -46,8 +46,13 @@ npm run build
 
 ```
 
-// language
-DateTimePicker.setMessage({
+// 언어 설정
+Daracl.dateTimePicker.setDefaultFormat({
+    date: 'YYYY.MM.DD'
+    , datetime: "YYYY.MM.DD HH:mm"
+})
+
+Daracl.dateTimePicker.setMessage({
     year: '년',
     month: '월',
     day: '일',
@@ -60,63 +65,78 @@ DateTimePicker.setMessage({
     abbr: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
     },
     weeks: {
-    full: ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
-    abbr: ["월", "화", "수", "목", "금", "토", "일"]
+    full: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+    abbr: ["일", "월", "화", "수", "목", "금", "토"]
     },
 });
 
-// mode=date
-new DateTimePicker('#dateText', {
-    initialDate: '2023-08-10' // init date
-    , format: 'YYYY-MM-DD'
+Daracl.dateTimePicker.create('#dateText', {
+    //initialDate: '2023-08-10' // 초기화 요일
+    aaa: 11
     , mode: 'date'
-    , minDate: DateTimePicker.parser('2023-08-05')
-    , maxDate: DateTimePicker.parser('2050-09-30')
+    , minDate: Daracl.dateTimePicker.parser('2023.08.05')
+    , maxDate: Daracl.dateTimePicker.parser('2050.09.30')
+
     , onSelect: (dt) => {
-        console.log(dt);
-        //return false;
+    console.log(dt);
+    //return false; 
     }
+    , onClose: (dt) => {
+    console.log(dt);
+    //return false;
+    }
+
     , zIndex: 1000
-    },{
-    ok:"Ok"
+}, {
+    ok: "Ok"
 })
 
-// mode=datetime
-new DateTimePicker('#datetimeText',{initialDate:new Date(),format: 'YYYY-MM-DD HH:mm',  mode: 'datetime'});
+Daracl.dateTimePicker.create('#datetimeText', { initialDate: new Date(), mode: 'datetime' });
 
-// mode=time
-new DateTimePicker('#timeText',{initialDate:new Date(),format: 'HH:mm', mode: 'time'});
+Daracl.dateTimePicker.create('#timeText', { initialDate: new Date(), mode: 'time' });
 
-// mode=month
-new DateTimePicker('#monthText',{initialDate:new Date(),format: 'YYYY-MM', mode: 'month'});
+Daracl.dateTimePicker.create('#monthText', {
+    initialDate: new Date(), format: 'YYYY-MM-DD', mode: 'month', afterChangeDatepicker: (dt, mode) => {
+    console.log('monthText afterChangeDatepicker', dt, mode);
+    }
+});
 
-// mode=year
-new DateTimePicker('#yearText',{initialDate:new Date(),format: 'YYYY', mode: 'year'});
+Daracl.dateTimePicker.create('#yearText', {
+    initialDate: new Date(), format: 'YYYY', mode: 'year', afterChangeDatepicker: (dt, mode) => {
+    console.log('yearText afterChangeDatepicker', dt, mode);
+    }
+});
 
-// mode=datetime embed
-new DateTimePicker('#date', {
+
+var aaa = Daracl.dateTimePicker.create('#date', {
     inline: true
     , showMonthAfterYear: true
     , mode: 'datetime'
-    , weekStartDay: 1
-    , minDate: DateTimePicker.parser('2023-08-05')
-    , maxDate: DateTimePicker.parser('2025-09-30')
+    //, weekStartDay: 1
+    , minDate: Daracl.dateTimePicker.parser('2023-08-05')
+    , maxDate: Daracl.dateTimePicker.parser('2025-09-30')
+    //, isRTL: true
     , initialDate: new Date() // 초기화 요일
     , onSelect: (dt, mode, e) => {
-        console.log('select', dt, mode, e);
+    console.log('select', dt, mode, e);
     }
-    , beforeChangeDatepicker: (dt, callbackFn) => { 
-        console.log('beforeChangeDatepicker', dt);
-        callbackFn(true); // callback 을 사용하루 경우  return 은 무조건 false
-        return false;
+    , beforeChangeDatepicker: (dt, callbackFn) => {
+    console.log('beforeChangeDatepicker', dt);
+
+    setTimeout(function () {
+        callbackFn(true);
+    }, 10)
+
+    return false;
     }
     , afterChangeDatepicker: (dt, mode) => {
-        console.log('afterChangeDatepicker', dt, mode);
+    console.log('afterChangeDatepicker', dt, mode);
     }
     , beforeDrawDate: (dt) => {
     //return false; 
     return {
-        style: '111'
+        style: '111',
+        //check: true,
         //, tooltip: dt.date
     }
     }

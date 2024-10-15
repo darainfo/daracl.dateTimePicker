@@ -33,7 +33,7 @@ let DEFAULT_OPTIONS: DateTimePickerOptions = {
 
 function hiddenElement() {
   if (document.getElementById("hiddenDaraDatetimeElement") == null) {
-    document.querySelector("body")?.insertAdjacentHTML("beforeend", `<div id="hiddenDaraDatetimeElement" class="dara-datetime-hidden"></div>`);
+    document.querySelector("body")?.insertAdjacentHTML("beforeend", `<div id="hiddenDaraDatetimeElement" class="daracl-datetime-hidden"></div>`);
   }
 
   return document.getElementById("hiddenDaraDatetimeElement");
@@ -143,13 +143,13 @@ export default class DateTimePicker {
 
     if (this.options.inline) {
       this.datetimeElement = selectorElement;
-      this.datetimeElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
+      this.datetimeElement.className = `daracl-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
     } else {
       this.isInput = true;
       this.targetElement.setAttribute("value", viewDate.format(this.dateFormat));
 
       const datetimeElement = document.createElement("div");
-      datetimeElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} layer`;
+      datetimeElement.className = `daracl-datetime-wrapper ddtp-${daraDatetimeIdx} layer`;
       datetimeElement.setAttribute("style", `z-index:${this.options.zIndex};`);
       hiddenElement()?.appendChild(datetimeElement);
 
@@ -190,6 +190,10 @@ export default class DateTimePicker {
 
       this.dayOrder[i] = day < 7 ? day : day - 7;
     }
+  }
+
+  public static create(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message): DateTimePicker {
+    return new DateTimePicker(selector, options, message);
   }
 
   /**

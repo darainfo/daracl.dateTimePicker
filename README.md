@@ -3,10 +3,10 @@
 An easy to use lightweight javascript calendar library.
 
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/darainfo/dara-datetimepicker/blob/main/LICENSE)
-[![npm version](https://badge.fury.io/js/dara-datetimepicker.svg)](https://img.shields.io/npm/v/dara-datetimepicker)
-![npm](https://img.shields.io/npm/dt/dara-datetimepicker)
-[![minzipped size](https://img.shields.io/bundlephobia/minzip/dara-datetimepicker)](https://bundlephobia.com/package/dara-datetimepicker)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/darainfo/daracl.datetimepicker/blob/main/LICENSE)
+[![npm version](https://badge.fury.io/js/daracl.datetimepicker.svg)](https://img.shields.io/npm/v/daracl.datetimepicker)
+![npm](https://img.shields.io/npm/dt/daracl.datetimepicker)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/daracl.datetimepicker)](https://bundlephobia.com/package/daracl.datetimepicker)
 
 
 ## Browser Support
@@ -18,16 +18,16 @@ An easy to use lightweight javascript calendar library.
 # Installation
 
 ```bash
-npm install dara-datetimepicker
+npm install @daracl/datetimepicker
 ```
 
 OR
 
 ```bash
-yarn add dara-datetimepicker
+yarn add @daracl/datetimepicker
 ```
 
-or download [zip](https://github.com/darainfo/dara-datetimepicker/releases)
+or download [zip](https://github.com/darainfo/daracl.datetimepicker/releases)
 
 # start
 

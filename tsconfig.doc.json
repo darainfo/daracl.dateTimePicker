@@ -9,7 +9,7 @@
       //"packages/b/src/index.ts",
     ],
     "out": "docs",
-    "name": "Dara DateTimePicker Api",
+    "name": "Dacacl DateTimePicker Api",
     "excludePrivate": true,
     "readme": "DOC-README.md",
     "gitRevision": "main",

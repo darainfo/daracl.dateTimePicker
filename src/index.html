@@ -110,12 +110,12 @@
     }
 
     // 언어 설정
-    DateTimePicker.setDefaultFormat({
+    Daracl.dateTimePicker.setDefaultFormat({
       date: 'YYYY.MM.DD'
       , datetime: "YYYY.MM.DD HH:mm"
     })
 
-    DateTimePicker.setMessage({
+    Daracl.dateTimePicker.setMessage({
       year: '년',
       month: '월',
       day: '일',
@@ -133,12 +133,12 @@
       },
     });
 
-    new DateTimePicker('#dateText', {
+    Daracl.dateTimePicker.create('#dateText', {
       //initialDate: '2023-08-10' // 초기화 요일
       aaa: 11
       , mode: 'date'
-      , minDate: DateTimePicker.parser('2023.08.05')
-      , maxDate: DateTimePicker.parser('2050.09.30')
+      , minDate: Daracl.dateTimePicker.parser('2023.08.05')
+      , maxDate: Daracl.dateTimePicker.parser('2050.09.30')
 
       , onSelect: (dt) => {
         console.log(dt);
@@ -154,30 +154,30 @@
       ok: "Ok"
     })
 
-    new DateTimePicker('#datetimeText', { initialDate: new Date(), mode: 'datetime' });
+    Daracl.dateTimePicker.create('#datetimeText', { initialDate: new Date(), mode: 'datetime' });
 
-    new DateTimePicker('#timeText', { initialDate: new Date(), mode: 'time' });
+    Daracl.dateTimePicker.create('#timeText', { initialDate: new Date(), mode: 'time' });
 
-    new DateTimePicker('#monthText', {
+    Daracl.dateTimePicker.create('#monthText', {
       initialDate: new Date(), format: 'YYYY-MM-DD', mode: 'month', afterChangeDatepicker: (dt, mode) => {
         console.log('monthText afterChangeDatepicker', dt, mode);
       }
     });
 
-    new DateTimePicker('#yearText', {
+    Daracl.dateTimePicker.create('#yearText', {
       initialDate: new Date(), format: 'YYYY', mode: 'year', afterChangeDatepicker: (dt, mode) => {
         console.log('yearText afterChangeDatepicker', dt, mode);
       }
     });
 
 
-    var aaa = new DateTimePicker('#date', {
+    var aaa = Daracl.dateTimePicker.create('#date', {
       inline: true
       , showMonthAfterYear: true
       , mode: 'datetime'
       //, weekStartDay: 1
-      , minDate: DateTimePicker.parser('2023-08-05')
-      , maxDate: DateTimePicker.parser('2025-09-30')
+      , minDate: Daracl.dateTimePicker.parser('2023-08-05')
+      , maxDate: Daracl.dateTimePicker.parser('2025-09-30')
       //, isRTL: true
       , initialDate: new Date() // 초기화 요일
       , onSelect: (dt, mode, e) => {

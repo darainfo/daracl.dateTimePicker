@@ -1,8 +1,8 @@
 {
-  "name": "dara-datetimepicker",
-  "version": "0.2.3",
+  "name": "@daracl/datetimepicker",
+  "version": "0.0.1",
   "sideEffects": false,
-  "description": "Dara Datetime picker",
+  "description": "Dacacl Datetime picker",
   "author": {
     "name": "darainfo",
     "email": "darainfosys@gmail.com",
@@ -10,30 +10,33 @@
   },
   "license": "MIT",
   "keywords": [
-    "daraDatetimepicker",
-    "dara-datetimepicker",
-    "datetimepicker",
+    "@daracl/dateTimePicker",
+    "daracl-dateTimePicker",
+    "daracl.dateTimePicker",
+    "dateTimePicker",
     "pickek",
     "darainfo",
     "javascript"
   ],
   "main": "src/index.ts",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js",
-    "./dist/": "./dist/"
-  },
-  "homepage": "https://github.com/darainfo/dara-datetimepicker",
+  "homepage": "https://github.com/darainfo/daracl.dateTimePicker",
   "bugs": {
-    "url": "https://github.com/darainfo/dara-datetimepicker/issues",
+    "url": "https://github.com/darainfo/daracl.dateTimePicker/issues",
     "email": "darainfosys@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/darainfo/dara-datetimepicker.git"
+    "url": "https://github.com/darainfo/daracl.dateTimePicker.git"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./dist/": "./dist/",
+    "./style/": "./style/"
   },
   "files": [
-    "dist"
+    "dist",
+    "style"
   ],
   "dependencies": {
     "typescript": "^5.1.6",

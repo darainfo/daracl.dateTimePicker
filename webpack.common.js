@@ -18,7 +18,8 @@ module.exports = {
   entry: "./src/index.ts",
   output: {
     path: path.join(__dirname, "dist"),
-    filename: "dara.datetimepicker.js",
+    filename: "daracl.datetimepicker.js",
+    library: ["Daracl", "dateTimePicker"],
     libraryTarget: "umd",
   },
 

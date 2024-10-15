@@ -1,11 +1,11 @@
-.dara-datetime-hidden {
+.daracl-datetime-hidden {
   visibility: visible;
   width: 0px;
   height: 0px;
   z-index: 1000;
 }
 
-.dara-datetime-wrapper {
+.daracl-datetime-wrapper {
   --color: #34495e;
   --light: #ffffff;
   --success: #0abf30;
@@ -21,8 +21,8 @@
   --today-bg: #a9d5ff;
 }
 
-body.dark .dara-datetime-wrapper,
-.dara-datetime-wrapper.dark {
+body.dark .daracl-datetime-wrapper,
+.daracl-datetime-wrapper.dark {
   --color: #d0d6e1;
   --light: #ffffff;
   --success: #0abf30;
@@ -39,7 +39,7 @@ body.dark .dara-datetime-wrapper,
   --disabled-background-color: #818181;
 }
 
-.dara-datetime-wrapper {
+.daracl-datetime-wrapper {
   z-index: 1000;
   display: none;
 

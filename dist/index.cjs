@@ -1,28 +1,4 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// src/index.ts
-var src_exports = {};
-__export(src_exports, {
-  DateTimePicker: () => DateTimePicker2
-});
-module.exports = __toCommonJS(src_exports);
 
 // src/Lanauage.ts
 var localeMessage = {
@@ -657,12 +633,12 @@ var DEFAULT_OPTIONS = {
 };
 function hiddenElement() {
   if (document.getElementById("hiddenDaraDatetimeElement") == null) {
-    document.querySelector("body")?.insertAdjacentHTML("beforeend", `<div id="hiddenDaraDatetimeElement" class="dara-datetime-hidden"></div>`);
+    document.querySelector("body")?.insertAdjacentHTML("beforeend", `<div id="hiddenDaraDatetimeElement" class="daracl-datetime-hidden"></div>`);
   }
   return document.getElementById("hiddenDaraDatetimeElement");
 }
 var daraDatetimeIdx = 0;
-var DateTimePicker = class {
+var DateTimePicker = class _DateTimePicker {
   constructor(selector, options, message) {
     this.isInput = false;
     this.isVisible = false;
@@ -726,12 +702,12 @@ var DateTimePicker = class {
     this.maxDate = this._maxDate();
     if (this.options.inline) {
       this.datetimeElement = selectorElement;
-      this.datetimeElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
+      this.datetimeElement.className = `daracl-datetime-wrapper ddtp-${daraDatetimeIdx} embed`;
     } else {
       this.isInput = true;
       this.targetElement.setAttribute("value", viewDate.format(this.dateFormat));
       const datetimeElement = document.createElement("div");
-      datetimeElement.className = `dara-datetime-wrapper ddtp-${daraDatetimeIdx} layer`;
+      datetimeElement.className = `daracl-datetime-wrapper ddtp-${daraDatetimeIdx} layer`;
       datetimeElement.setAttribute("style", `z-index:${this.options.zIndex};`);
       hiddenElement()?.appendChild(datetimeElement);
       this.datetimeElement = datetimeElement;
@@ -770,6 +746,9 @@ var DateTimePicker = class {
       let day = weekStartDay + i;
       this.dayOrder[i] = day < 7 ? day : day - 7;
     }
+  }
+  static create(selector, options, message) {
+    return new _DateTimePicker(selector, options, message);
   }
   /**
    * default date format setting
@@ -1389,5 +1368,5 @@ function getDocSize() {
 }
 
 // src/index.ts
-var DateTimePicker2 = DateTimePicker;
+module.exports = DateTimePicker;
 //# sourceMappingURL=index.cjs.map

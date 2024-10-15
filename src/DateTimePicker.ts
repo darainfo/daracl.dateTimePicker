@@ -684,7 +684,7 @@ export default class DateTimePicker {
 
     const startYear = +currentYear - 8;
 
-    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${startYear}${Lanauage.getMessage("year")} ~ ${startYear + 15}${Lanauage.getMessage("year")}`;
+    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${startYear} ~ ${startYear + 15}`;
 
     const beforeDrawDateFlag = utils.isFunction(this.options.beforeDrawDate);
     const beforeDrawDateFn = beforeDrawDateFlag ? this.options.beforeDrawDate : false;
@@ -754,7 +754,7 @@ export default class DateTimePicker {
     }
 
     const year = this.currentDate.format("YYYY");
-    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${year}${Lanauage.getMessage("year")}`;
+    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = `${year}`;
 
     const monthElements = this.datetimeElement.querySelectorAll(".ddtp-months > .ddtp-month");
 
@@ -850,7 +850,7 @@ export default class DateTimePicker {
     const currentMonth = monthFirstDate.getMonth();
     monthFirstDate.setDate(1);
 
-    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = monthFirstDate.format("YYYY") + Lanauage.getMessage("year");
+    (this.datetimeElement.querySelector(".ddtp-header-year") as Element).textContent = monthFirstDate.format("YYYY");
     (this.datetimeElement.querySelector(".ddtp-header-month") as Element).textContent = monthFirstDate.format("MMMM");
 
     let day = monthFirstDate.getDay();

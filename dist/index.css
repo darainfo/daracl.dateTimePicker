@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-/* style/datetimepicker.style.scss */
-.dara-datetime-hidden {
+/* style/daracl.datetimepicker.scss */
+.daracl-datetime-hidden {
   visibility: visible;
   width: 0px;
   height: 0px;
   z-index: 1000;
 }
-.dara-datetime-wrapper {
+.daracl-datetime-wrapper {
   --color: #34495e;
   --light: #ffffff;
   --success: #0abf30;
@@ -22,8 +22,8 @@
   --disabled-background-color: #f1f1f18a;
   --today-bg: #a9d5ff;
 }
-body.dark .dara-datetime-wrapper,
-.dara-datetime-wrapper.dark {
+body.dark .daracl-datetime-wrapper,
+.daracl-datetime-wrapper.dark {
   --color: #d0d6e1;
   --light: #ffffff;
   --success: #0abf30;
@@ -39,38 +39,38 @@ body.dark .dara-datetime-wrapper,
   --button-hover-color: #31316c;
   --disabled-background-color: #818181;
 }
-.dara-datetime-wrapper {
+.daracl-datetime-wrapper {
   z-index: 1000;
   display: none;
 }
-.dara-datetime-wrapper *,
-.dara-datetime-wrapper *::before,
-.dara-datetime-wrapper *::after {
+.daracl-datetime-wrapper *,
+.daracl-datetime-wrapper *::before,
+.daracl-datetime-wrapper *::after {
   box-sizing: content-box;
   color: var(--color);
 }
-.dara-datetime-wrapper.layer {
+.daracl-datetime-wrapper.layer {
   position: absolute;
 }
-.dara-datetime-wrapper input {
+.daracl-datetime-wrapper input {
   background-color: transparent;
 }
-.dara-datetime-wrapper.show {
+.daracl-datetime-wrapper.show {
   display: block;
   animation: fadeIn 0.5s;
   animation-fill-mode: forwards;
 }
-.dara-datetime-wrapper.hide {
+.daracl-datetime-wrapper.hide {
   animation: fadeOut 0.5s;
   animation-fill-mode: forwards;
 }
-.dara-datetime-wrapper.embed {
+.daracl-datetime-wrapper.embed {
   display: block;
 }
-.dara-datetime-wrapper .sun > span {
+.daracl-datetime-wrapper .sun > span {
   color: var(--sunday);
 }
-.dara-datetime-wrapper .ddtp-datetime {
+.daracl-datetime-wrapper .ddtp-datetime {
   border-radius: 4px;
   padding: 10px;
   width: 235px;
@@ -81,95 +81,95 @@ body.dark .dara-datetime-wrapper,
     0px 8px 10px 1px rgba(0, 0, 0, 0.14),
     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
-.dara-datetime-wrapper .ddtp-datetime.rtl {
+.daracl-datetime-wrapper .ddtp-datetime.rtl {
   direction: rtl;
 }
-.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-header-year,
-.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-header-month {
+.daracl-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-header-year,
+.daracl-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-header-month {
   float: right;
 }
-.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-date-move {
+.daracl-datetime-wrapper .ddtp-datetime.rtl .ddtp-header .ddtp-date-move {
   float: left;
 }
-.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-body .ddtp-times .time-container {
+.daracl-datetime-wrapper .ddtp-datetime.rtl .ddtp-body .ddtp-times .time-container {
   display: block;
 }
-.dara-datetime-wrapper .ddtp-datetime.rtl .ddtp-body .ddtp-times > .time-btn {
+.daracl-datetime-wrapper .ddtp-datetime.rtl .ddtp-body .ddtp-times > .time-btn {
   left: 0px;
   right: auto;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=date] .ddtp-body > .ddtp-days {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=date] .ddtp-body > .ddtp-days {
   display: block;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=datetime] .ddtp-body > .ddtp-times,
-.dara-datetime-wrapper .ddtp-datetime[view-mode=datetime] .ddtp-body > .ddtp-days {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=datetime] .ddtp-body > .ddtp-times,
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=datetime] .ddtp-body > .ddtp-days {
   display: block;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=time] .ddtp-body > .ddtp-times {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=time] .ddtp-body > .ddtp-times {
   display: block;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=time] .ddtp-header {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=time] .ddtp-header {
   display: none;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=year] .ddtp-body > .ddtp-years {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=year] .ddtp-body > .ddtp-years {
   display: flex;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=year] .ddtp-header-month {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=year] .ddtp-header-month {
   display: none;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=month] .ddtp-body > .ddtp-months {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=month] .ddtp-body > .ddtp-months {
   display: flex;
 }
-.dara-datetime-wrapper .ddtp-datetime[view-mode=month] .ddtp-header-month {
+.daracl-datetime-wrapper .ddtp-datetime[view-mode=month] .ddtp-header-month {
   display: none;
 }
-.dara-datetime-wrapper .ddtp-header {
+.daracl-datetime-wrapper .ddtp-header {
   padding: 2px 5px 10px;
   line-height: 25px;
   height: 25px;
   vertical-align: middle;
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-header-year {
+.daracl-datetime-wrapper .ddtp-header .ddtp-header-year {
   font-weight: bold;
   margin: 0px 10px 0px 0px;
   cursor: pointer;
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-header-month {
+.daracl-datetime-wrapper .ddtp-header .ddtp-header-month {
   font-weight: bold;
   margin: 0px 10px 0px 0px;
   vertical-align: top;
   cursor: pointer;
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-date-move {
+.daracl-datetime-wrapper .ddtp-header .ddtp-date-move {
   margin-left: auto;
   vertical-align: top;
   float: right;
   direction: ltr;
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn {
+.daracl-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn {
   text-decoration: none;
   font-weight: bold;
   display: inline-block;
   height: 24px;
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn > svg {
+.daracl-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn > svg {
   fill: var(--color);
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn:hover {
+.daracl-datetime-wrapper .ddtp-header .ddtp-date-move .ddtp-move-btn:hover {
   background-color: var(--button-hover-color);
 }
-.dara-datetime-wrapper .ddtp-header .ddtp-date-move::after {
+.daracl-datetime-wrapper .ddtp-header .ddtp-date-move::after {
   content: "";
   clear: both;
 }
-.dara-datetime-wrapper .ddtp-body {
+.daracl-datetime-wrapper .ddtp-body {
   margin: -2px -10px;
   font-size: 13px;
 }
-.dara-datetime-wrapper .ddtp-body > * {
+.daracl-datetime-wrapper .ddtp-body > * {
   display: none;
 }
-.dara-datetime-wrapper .ddtp-body button {
+.daracl-datetime-wrapper .ddtp-body button {
   display: block;
   width: 100%;
   margin-bottom: 7px;
@@ -180,34 +180,34 @@ body.dark .dara-datetime-wrapper,
   border-style: solid;
   background-color: var(--background-color);
 }
-.dara-datetime-wrapper .ddtp-body button:hover {
+.daracl-datetime-wrapper .ddtp-body button:hover {
   background-color: var(--button-hover-color);
 }
-.dara-datetime-wrapper .ddtp-body .time-today:hover {
+.daracl-datetime-wrapper .ddtp-body .time-today:hover {
   background-color: var(--button-hover-color);
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days {
   letter-spacing: 0px;
   border-collapse: separate;
   border-spacing: 0px;
   margin: 2px 10px;
   width: inherit;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day-label {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day-label {
   font-weight: bold;
   width: 35px;
   padding: 2px 5px;
   text-align: center;
   line-height: initial;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day {
   position: relative;
   text-align: center;
   padding: 7px;
   cursor: pointer;
   line-height: initial;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.event::after {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.event::after {
   content: "\2022";
   color: #f78536;
   font-size: 1.4em;
@@ -216,7 +216,7 @@ body.dark .dara-datetime-wrapper,
   z-index: 10;
   top: -7px;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:before {
   content: "";
   position: absolute;
   top: 50%;
@@ -231,78 +231,78 @@ body.dark .dara-datetime-wrapper,
   z-index: 0;
   transition: opacity 0.2s ease-in;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:active:before,
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:hover:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:active:before,
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day:hover:before {
   opacity: 0.7;
   transition: opacity 0.2s ease-out;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today > span {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today > span {
   z-index: 2;
   position: relative;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.today:before {
   background-color: var(--today-bg);
   z-index: 1;
   opacity: 1;
   transition: opacity 0.2s ease-out;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.select:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.select:before {
   background-color: var(--select-background-color);
   opacity: 0.5;
   transition: opacity 0.2s ease-out;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.old,
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.new {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.old,
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.new {
   opacity: 0.5;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.disabled {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.disabled {
   background-color: var(--disabled-background-color);
   opacity: 0.5;
   cursor: auto;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.disabled:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-days .ddtp-day.disabled:before {
   background-color: transparent;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times {
   margin: 2px 15px;
   position: relative;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times > .time-container {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times > .time-container {
   width: calc(100% - 60px);
   display: inline-block;
   height: 60px;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number] {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times input[type=number] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-inner-spin-button,
-.dara-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-outer-spin-button {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-inner-spin-button,
+.daracl-datetime-wrapper .ddtp-body .ddtp-times input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times > .time-btn {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times > .time-btn {
   position: absolute;
   top: 9px;
   width: 55px;
   right: 0px;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times > .time-btn > .time-select {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times > .time-btn > .time-select {
   height: 40px;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time {
   display: table-row;
   width: 160px;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > * {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > * {
   margin-top: 5px;
   display: table-cell;
   line-height: 20px;
   vertical-align: middle;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > span {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > span {
   width: 20px;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > input[type=number] {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > input[type=number] {
   width: 45px;
   margin-right: 5px;
   padding-left: 0px;
@@ -311,15 +311,15 @@ body.dark .dara-datetime-wrapper,
   border-width: 1px;
   text-align: center;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > input[type=range] {
+.daracl-datetime-wrapper .ddtp-body .ddtp-times .ddtp-time > input[type=range] {
   width: calc(100% - 60px);
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-months {
+.daracl-datetime-wrapper .ddtp-body .ddtp-months {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month {
+.daracl-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month {
   position: relative;
   flex: 1 0 30%;
   margin-bottom: 8px;
@@ -327,7 +327,7 @@ body.dark .dara-datetime-wrapper,
   text-align: center;
   cursor: pointer;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:before {
   content: "";
   position: absolute;
   top: 50%;
@@ -342,25 +342,25 @@ body.dark .dara-datetime-wrapper,
   z-index: 0;
   transition: opacity 0.2s ease-in;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:active:before,
-.dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:hover:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:active:before,
+.daracl-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month:hover:before {
   opacity: 0.5;
   transition: opacity 0.2s ease-out;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month.disabled {
+.daracl-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month.disabled {
   background-color: var(--disabled-background-color);
   opacity: 0.5;
   cursor: auto;
 }
-.dara-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month.disabled:before {
+.daracl-datetime-wrapper .ddtp-body .ddtp-months > .ddtp-month.disabled:before {
   background-color: transparent;
 }
-.dara-datetime-wrapper .ddtp-years {
+.daracl-datetime-wrapper .ddtp-years {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.dara-datetime-wrapper .ddtp-years > .ddtp-year {
+.daracl-datetime-wrapper .ddtp-years > .ddtp-year {
   position: relative;
   flex: 1 0 25%;
   margin-bottom: 8px;
@@ -368,7 +368,7 @@ body.dark .dara-datetime-wrapper,
   text-align: center;
   cursor: pointer;
 }
-.dara-datetime-wrapper .ddtp-years > .ddtp-year:before {
+.daracl-datetime-wrapper .ddtp-years > .ddtp-year:before {
   content: "";
   position: absolute;
   top: 50%;
@@ -383,17 +383,17 @@ body.dark .dara-datetime-wrapper,
   z-index: 0;
   transition: opacity 0.2s ease-in;
 }
-.dara-datetime-wrapper .ddtp-years > .ddtp-year:active:before,
-.dara-datetime-wrapper .ddtp-years > .ddtp-year:hover:before {
+.daracl-datetime-wrapper .ddtp-years > .ddtp-year:active:before,
+.daracl-datetime-wrapper .ddtp-years > .ddtp-year:hover:before {
   opacity: 0.5;
   transition: opacity 0.2s ease-out;
 }
-.dara-datetime-wrapper .ddtp-years > .ddtp-year.disabled {
+.daracl-datetime-wrapper .ddtp-years > .ddtp-year.disabled {
   background-color: var(--disabled-background-color);
   opacity: 0.5;
   cursor: auto;
 }
-.dara-datetime-wrapper .ddtp-years > .ddtp-year.disabled:before {
+.daracl-datetime-wrapper .ddtp-years > .ddtp-year.disabled:before {
   background-color: transparent;
 }
 @keyframes fadeIn {

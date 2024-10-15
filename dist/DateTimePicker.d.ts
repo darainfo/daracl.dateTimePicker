@@ -32,6 +32,7 @@ export default class DateTimePicker {
     private dayOrder;
     constructor(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message);
     setWeekDays(): void;
+    static create(selector: string | HTMLElement, options: DateTimePickerOptions, message: Message): DateTimePicker;
     /**
      * default date format setting
      * @example

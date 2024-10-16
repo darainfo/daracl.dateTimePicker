@@ -2,11 +2,11 @@
 
 An easy to use lightweight javascript calendar library.
 
-
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/darainfo/daracl.datetimepicker/blob/main/LICENSE)
-[![npm version](https://badge.fury.io/js/daracl.datetimepicker.svg)](https://img.shields.io/npm/v/daracl.datetimepicker)
-![npm](https://img.shields.io/npm/dt/daracl.datetimepicker)
-[![minzipped size](https://img.shields.io/bundlephobia/minzip/daracl.datetimepicker)](https://bundlephobia.com/package/daracl.datetimepicker)
+[![npm version](https://badge.fury.io/js/@daracl%2Fdatetimepicker.svg)](https://badge.fury.io/js/@daracl%2Fdatetimepicker)
+[![npm](https://img.shields.io/npm/dt/@daracl%2Fdatetimepicker)](https://github.com/darainfo/daracl.datetimepicker/releases)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/@daracl%2Fdatetimepicker)](https://bundlephobia.com/package/@daracl%2Fdatetimepicker)
+
 
 
 ## Browser Support
@@ -14,6 +14,10 @@ An easy to use lightweight javascript calendar library.
 | ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) |
 | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Latest ✔                                                                                 | Latest ✔                                                                                    | Latest ✔                                                                                 | Latest ✔                                                                              | Latest ✔                                                                           |
+
+<p>
+<img src="https://github.com/darainfo/daracl.dateTimePicker/blob/main/demo.gif?raw=true"/>
+</p>
 
 # Installation
 

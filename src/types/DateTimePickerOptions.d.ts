@@ -8,6 +8,7 @@ export interface DateTimePickerOptions {
   inline: boolean; // layer or innerhtml
   initialDate: string | Date; // 초기화 요일
   isRTL: boolean;
+  isPositionFixed: boolean;
   mode: DateViewMode;
   weekStartDay: number; // 첫번째 요일 0:일, 1:월, 2:화, 3:수, 4:목, 5:금, 6:토
   showMonthAfterYear: boolean;

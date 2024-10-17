@@ -18,6 +18,7 @@ let DEFAULT_OPTIONS: DateTimePickerOptions = {
   mode: DateViewMode.date,
   enableTodayBtn: true,
   showMonthAfterYear: false,
+  isPositionFixed: false,
   format: "",
   zIndex: 1000,
   minDate: "",
@@ -473,16 +474,24 @@ export default class DateTimePicker {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
 
-    const offsetTop = rect.top + scrollTop;
-    let top = offsetTop + this.targetElement.offsetHeight + 2;
-    const left = rect.left + scrollLeft;
+    const elementHeight = this.datetimeElement.offsetHeight;
+    const targetElementHeight = this.targetElement.offsetHeight + 2;
+    let left = rect.left + scrollLeft;
 
-    if (top + this.datetimeElement.offsetHeight > docSize.clientHeight) {
-      const newTop = offsetTop - (this.datetimeElement.offsetHeight + 2);
-      top = newTop > 0 ? newTop : top;
+    let top = 0;
+
+    if (this.options.isPositionFixed) {
+      top = rect.top + targetElementHeight;
+      left = rect.left;
+    } else {
+      if (rect.top + targetElementHeight + elementHeight > docSize.clientHeight && rect.top >= elementHeight) {
+        top = scrollTop + rect.top - elementHeight - 2;
+      } else {
+        top = scrollTop + rect.top + targetElementHeight;
+      }
     }
 
-    this.datetimeElement.setAttribute("style", `top:${top}px;left:${left}px;z-index:${this.options.zIndex}`);
+    this.datetimeElement.setAttribute("style", `${this.options.isPositionFixed ? "position:fixed;" : ""}top:${top}px;left:${left}px;z-index:${this.options.zIndex}`);
 
     document.addEventListener("click", this._documentClickEvent);
   }

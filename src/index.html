@@ -41,9 +41,17 @@
         <h2>embed</h2>
         <div id="date"></div>
       </li>
-
     </ul>
   </div>
+
+  <div style="height:800px;width:800px;background-color: aqua;position: fixed; top: 200px; left: 500px;z-index: 10000;">
+    <input type="text" id="datetimeText1" />
+  </div>
+
+  <div style="height:800px;width:1800px;">
+
+  </div>
+
 
 </body>
 
@@ -153,6 +161,8 @@
         console.log('yearText afterChangeDatepicker', dt, mode);
       }
     });
+
+    Daracl.dateTimePicker.create('#datetimeText1', { zIndex: 50000, isPositionFixed: true });
 
 
     var aaa = Daracl.dateTimePicker.create('#date', {

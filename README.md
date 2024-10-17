@@ -169,6 +169,8 @@ var aaa = Daracl.dateTimePicker.create('#date', {
 | beforeChangeDatepicker    | date change before event |              |                                   |
 | afterChangeDatepicker    | date change after event |              |                                   |
 | beforeDrawDate    | before date draw |              |                                   |
+| isPositionFixed    | position fixed | false      |                                   |
+
 
 # Language
 

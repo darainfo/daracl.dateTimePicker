@@ -16,7 +16,16 @@ module.exports = (env) => {
         {
           test: /\.(sa|sc|c)ss$/i,
           //exclude: /node_modules/u,
-          use: ["style-loader", "css-loader", "sass-loader"],
+          use: [
+            "style-loader",
+            "css-loader",
+            {
+              loader: "sass-loader",
+              options: {
+                implementation: require("sass"), // Prefer `dart-sass`
+              },
+            },
+          ],
           //use: ["style-loader", "css-loader"],
         },
       ],

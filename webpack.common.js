@@ -19,8 +19,10 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     filename: "daracl.datetimepicker.js",
-    library: ["Daracl", "dateTimePicker"],
+    library: { name: ["Daracl", "dateTimePicker"], type: "window" },
+    umdNamedDefine: true,
     libraryTarget: "umd",
+    globalObject: "globalThis",
   },
 
   resolve: {

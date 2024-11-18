@@ -1,16 +1,19 @@
-const esbuild = require('esbuild');
+const esbuild = require("esbuild");
 
-const { sassPlugin } = require('esbuild-sass-plugin');
+const { sassPlugin } = require("esbuild-sass-plugin");
+
+const packageJson = require("./package.json");
 
 const baseConfig = {
-  entryPoints: ['src/index.ts'],
+  entryPoints: ["src/index.ts"],
   outdir: "dist",
   bundle: true,
   sourcemap: true,
-  plugins: [
-    sassPlugin(),
-  ]
-}
+  define: {
+    APP_VERSION: `"${packageJson.version}"`, // 'production' 값으로 설정
+  },
+  plugins: [sassPlugin()],
+};
 
 Promise.all([
   // 한번은 cjs
@@ -19,15 +22,15 @@ Promise.all([
     format: "cjs",
     outExtension: {
       ".js": ".cjs",
-    } 
+    },
   }),
 
   // 한번은 esm
   esbuild.build({
     ...baseConfig,
-    format: "esm", 
+    format: "esm",
   }),
 ]).catch(() => {
-  console.log('Build failed');
+  console.log("Build failed");
   process.exit(1);
 });

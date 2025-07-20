@@ -239,6 +239,26 @@ body.dark .daracl-datetime-wrapper,
       margin: 2px 10px;
       width: inherit;
 
+      tr {
+        background-color: var(--background-color);
+      }
+
+      td,
+      th {
+        border-width: 0px !important;
+        background-color: var(--background-color);
+        padding: 7px;
+      }
+
+      .ddtp-day-footer {
+        td,
+        th {
+          border-width: 0px !important;
+          background-color: var(--background-color);
+          padding: 0px;
+        }
+      }
+
       .ddtp-day-label {
         font-weight: bold;
         width: 35px;
@@ -253,6 +273,8 @@ body.dark .daracl-datetime-wrapper,
         padding: 7px;
         cursor: pointer;
         line-height: initial;
+        border-width: 0px !important;
+        background: var(--background-color);
 
         &.event::after {
           content: "•";

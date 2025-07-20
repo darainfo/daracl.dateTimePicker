@@ -12,7 +12,10 @@
     "name": "Dacacl DateTimePicker Api",
     "excludePrivate": true,
     "readme": "DOC-README.md",
+    "hideBreadcrumbs": true,
+    "hidePageTitle": true,
     "gitRevision": "main",
+    "plugin": ["typedoc-plugin-markdown"],
     /*
     "plugin": [
       "@mxssfd/typedoc-theme"

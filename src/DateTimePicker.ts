@@ -631,7 +631,7 @@ export default class DateTimePicker {
                     
                     <tfoot class="ddtp-day-footer">
                         <td colspan="7">
-                            <div style="text-align:center;margin-top: 5px;${this.options.enableTodayBtn ? "" : "display:none;"}"><button type="button" class="time-today">${Lanauage.getMessage("today")}</button></div>
+                            <div style="width:99%;text-align:center;margin-top: 5px;${this.options.enableTodayBtn ? "" : "display:none;"}"><button type="button" class="time-today">${Lanauage.getMessage("today")}</button></div>
                             <div class="footer-tooltip"></div>
                         </td>
                     </tfoot>

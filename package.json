@@ -1,6 +1,6 @@
 {
   "name": "@daracl/datetimepicker",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "sideEffects": false,
   "description": "Dacacl Datetime picker",
   "author": {
@@ -91,7 +91,8 @@
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.24.8",
+    "typedoc": "^0.28.2",
+    "typedoc-plugin-markdown": "^4.7.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.9.0",
